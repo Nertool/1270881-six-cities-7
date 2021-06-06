@@ -1,24 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
-function Card({card}) {
-  return (
-    <article className="cities__place-card place-card">
+function Premium({ isPremium }) {
+  if (isPremium) {
+    return (
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
+    );
+  } else {
+    return false;
+  }
+}
+
+function Card({hotel}) {
+  return (
+    <article className="cities__place-card place-card">
+
+      <Premium isPremium={ hotel.isPremium }/>
+
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#s">
-          <img className="place-card__image" src={card.imgSrc} width="260" height="200" alt="Place" />
-        </a>
+        <Link to={`/offer/${hotel.id}`}>
+          <img className="place-card__image" src={hotel.previewImage} width="260" height="200" alt="Place" />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{card.price}</b>
+            <b className="place-card__price-value">&euro;{hotel.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={`place-card__bookmark-button button ${hotel.isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -27,21 +40,21 @@ function Card({card}) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${hotel.rating}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#s">{card.title}</a>
+          <Link to={`/offer/${hotel.id}`}>{hotel.title}</Link>
         </h2>
-        <p className="place-card__type">{card.itemType}</p>
+        <p className="place-card__type">{hotel.type}</p>
       </div>
     </article>
   );
 }
 
 Card.propTypes = {
-  card: PropTypes.object.isRequired,
+  hotel: PropTypes.object.isRequired,
 };
 
 export default Card;
