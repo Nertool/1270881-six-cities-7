@@ -1,27 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
-import Card from '../../components/Card/Card';
-import Header from '../../components/Header/Header';
-import Locations from '../../components/Locations/Locations';
+import OffersProp from '../Offer/Offer.prop';
+
+import MainCard from '../../components/MainCard/MainCard';
+import AppHeader from '../../components/AppHeader/AppHeader';
+import MainLocations from '../../components/MainLocations/MainLocations';
+import MainMap from '../../components/MainMap/MainMap';
 
 function Main(props) {
-  const {hotels} = props;
+  const {offers, locations} = props;
+  const countPlaces = offers.length;
+  const [ cardLocation, setCardLocation ] = useState({});
+
+  function showActiveCard(e, offerLocation) {
+    e.preventDefault();
+    setCardLocation(offerLocation);
+  }
+
   return (
     <div className="page page--gray page--main">
 
-      <Header />
+      <AppHeader />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
 
-        <Locations />
+        <MainLocations locations={locations} />
 
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{ countPlaces } places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
@@ -40,13 +51,19 @@ function Main(props) {
               </form>
               <div className="cities__places-list places__list tabs__content">
 
-                {hotels.map((hotel) => <Card key={hotel.id} hotel={hotel} />)}
+                {offers.map((offer) => {
+                  const keyValue = `${offer.id}-${offer.title}`;
+
+                  return (
+                    <MainCard key={keyValue} offer={offer} hover={showActiveCard} />
+                  );
+                })}
 
               </div>
             </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
-            </div>
+
+            <MainMap cardLocation={cardLocation} />
+
           </div>
         </div>
       </main>
@@ -55,16 +72,8 @@ function Main(props) {
 }
 
 Main.propTypes = {
-  hotels: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      isPremium: PropTypes.bool.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      isFavorite: PropTypes.bool.isRequired,
-      title: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      type: PropTypes.string.isRequired,
-    })).isRequired};
+  offers: PropTypes.arrayOf(OffersProp),
+  locations: PropTypes.array.isRequired,
+};
 
 export default Main;

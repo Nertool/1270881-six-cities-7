@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-function Footer() {
+function AppFooter() {
   return (
     <footer className="footer container">
       <Link className="footer__logo-link" to='/'>
@@ -11,4 +11,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default AppFooter;
