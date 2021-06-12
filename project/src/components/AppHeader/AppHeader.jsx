@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-function Header() {
+function AppHeader() {
   return (
     <header className="header">
       <div className="container">
@@ -51,4 +51,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default AppHeader;
