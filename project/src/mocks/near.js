@@ -1,4 +1,4 @@
-const near = [
+const data = [
   {
     'city': {'name': 'Brussels', 'location': {'latitude': 50.846557, 'longitude': 4.351697, 'zoom': 13}},
     'preview_image': 'https://7.react.pages.academy/static/hotel/6.jpg',
@@ -53,7 +53,7 @@ const near = [
   },
 ];
 
-const correctArr = near.map((n) => entriesObj(n));
+const near = data.map((n) => entriesObj(n));
 
 function entriesObj(val) {
   if (val instanceof Array) {
@@ -70,4 +70,4 @@ function entriesObj(val) {
   }
 }
 
-export default correctArr;
+export default near;

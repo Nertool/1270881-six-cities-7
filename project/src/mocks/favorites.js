@@ -1,4 +1,4 @@
-const favorites = [
+const data = [
   {
     'city': {'name': 'Amsterdam', 'location': {'latitude': 51.225402, 'longitude': 6.776314, 'zoom': 13}},
     'preview_image': 'https://7.react.pages.academy/static/hotel/1.jpg',
@@ -70,7 +70,7 @@ const favorites = [
   },
 ];
 
-const correctArr = favorites.map((offer) => entriesObj(offer));
+const favorites = data.map((offer) => entriesObj(offer));
 
 function entriesObj(val) {
   if (val instanceof Array) {
@@ -87,4 +87,4 @@ function entriesObj(val) {
   }
 }
 
-export default correctArr;
+export default favorites;
