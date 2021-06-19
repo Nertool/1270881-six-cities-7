@@ -6,6 +6,8 @@ function MainMap(props) {
   const { cardLocation, offersList } =  props;
   const locationList = offersList.map((offer) => offer.location);
 
+  console.log(cardLocation, locationList);
+
   return (
     <div>
       <div>

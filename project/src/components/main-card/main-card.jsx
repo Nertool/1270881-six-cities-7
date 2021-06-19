@@ -26,7 +26,7 @@ function MainCard(props) {
   return (
     <article className="cities__place-card place-card" onMouseEnter={(e) => { hover(e, offer.location); }}>
 
-      {offer.isPremium && <MainCardPremium />}
+      {offer.isPremium && <MainCardPremium>Premium</MainCardPremium>}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${offer.id}`}>

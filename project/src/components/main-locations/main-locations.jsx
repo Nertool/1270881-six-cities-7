@@ -23,10 +23,10 @@ function MainLocations(props) {
       <section className="locations container">
         <ul className="locations__list tabs__list">
 
-          {locations.map((l, index) => {
-            const keyValue = `${index}-${l}`;
+          {locations.map((location, index) => {
+            const keyValue = `${index}-${location}`;
             return (
-              <MainLocationTab key={keyValue} location={l} isActive={activeClass[index]} changeLocation={changeLocation} index={index} />
+              <MainLocationTab key={keyValue} location={location} isActive={activeClass[index]} changeLocation={changeLocation} index={index} />
             );
           })}
 
