@@ -60,7 +60,7 @@ function Main(props) {
         data.sort((a, b) => b.price - a.price);
         break;
       case 'Top rated first':
-        data.sort((a, b) => a.rating - b.rating);
+        data.sort((a, b) => b.rating - a.rating);
         break;
       default:
         data.sort((a, b) => a.id - b.id);
