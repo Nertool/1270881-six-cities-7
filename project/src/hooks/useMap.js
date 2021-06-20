@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import leaflet from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
@@ -21,11 +21,11 @@ function useMap(mapRef, city) {
         })
         .addTo(instance);
 
-      setMap(instance)
+      setMap(instance);
     }
   }, [map]);
 
   return map;
-};
+}
 
 export default useMap;

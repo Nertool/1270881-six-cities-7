@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function MainCardPremium(props) {
   return (
@@ -7,5 +8,9 @@ function MainCardPremium(props) {
     </div>
   );
 }
+
+MainCardPremium.propTypes = {
+  children: PropTypes.func.isRequired,
+};
 
 export default MainCardPremium;

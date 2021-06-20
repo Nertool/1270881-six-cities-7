@@ -1,17 +1,17 @@
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../pages/offer/offer.prop';
-import leaflet from "leaflet";
+import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import useMap from "../../hooks/useMap";
+import useMap from '../../hooks/useMap';
 
 function MainMap(props) {
   const { cardLocation, offersList } =  props;
   const locationList = offersList.map((offer) => offer.location);
   const cityLocation = offersList[0].city.location;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, cityLocation)
+  const map = useMap(mapRef, cityLocation);
   const defaultIcon = leaflet.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [30, 30],
@@ -24,7 +24,7 @@ function MainMap(props) {
   });
 
   function checkSelectedMarker(location) {
-    return location.latitude === cardLocation.latitude && location.longitude === cardLocation.longitude
+    return location.latitude === cardLocation.latitude && location.longitude === cardLocation.longitude;
   }
 
   useEffect(() => {
@@ -35,12 +35,12 @@ function MainMap(props) {
         leaflet
           .marker({
             lat: location.latitude,
-            lng: location.longitude
+            lng: location.longitude,
           }, {
-            icon: checkSelectedMarker(location) ? activeIcon : defaultIcon
+            icon: checkSelectedMarker(location) ? activeIcon : defaultIcon,
           })
           .addTo(map);
-      })
+      });
     }
   }, [map, cityLocation, cardLocation]);
 
