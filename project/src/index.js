@@ -9,6 +9,7 @@ import favorites from './mocks/favorites';
 import near from './mocks/near';
 
 const IS_AUTH = true;
+// test
 
 ReactDOM.render(
   <App offers={offers} locations={locations} favorites={favorites} near={near} isLogged={IS_AUTH} />,
