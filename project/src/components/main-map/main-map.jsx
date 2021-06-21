@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import OffersProp from '../../pages/offer/offer.prop';
+import OffersProp from '../../offer.prop';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 

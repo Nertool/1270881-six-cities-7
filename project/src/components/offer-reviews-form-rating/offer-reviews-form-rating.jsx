@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function OfferFormRating(props) {
+function OfferReviewsFormRating(props) {
   const stars = ['5-stars', '4-stars', '3-stars', '2-stars', '1-stars'];
   const { value, changeRating } = props;
 
@@ -30,7 +30,7 @@ function Star(props) {
   );
 }
 
-OfferFormRating.propTypes = {
+OfferReviewsFormRating.propTypes = {
   value: PropTypes.number.isRequired || PropTypes.string.isRequired,
   changeRating: PropTypes.func.isRequired,
 };
@@ -42,4 +42,4 @@ Star.propTypes = {
   checked: PropTypes.bool.isRequired,
 };
 
-export default OfferFormRating;
+export default OfferReviewsFormRating;

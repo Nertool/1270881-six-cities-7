@@ -1,15 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import OffersProp from '../../pages/offer/offer.prop';
+import OffersProp from '../../offer.prop';
+import useFormatRating from '../../hooks/useFormatRating';
 
 function FavoritesCard(props) {
   const { card } = props;
-
-  function formatRating (value) {
-    return value * 100 / 5;
-  }
 
   return (
     <article className="favorites__card place-card">
@@ -34,7 +30,7 @@ function FavoritesCard(props) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${formatRating(card.rating)}%` }}>
+            <span style={{ width: `${useFormatRating(card.rating)}%` }}>
             </span>
             <span className="visually-hidden">Rating</span>
           </div>

@@ -1,18 +1,14 @@
 import React, {useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import OfferProp from '../../pages/offer/offer.prop';
+import OfferProp from '../../offer.prop';
+import useFormatRating from '../../hooks/useFormatRating';
 import MainCardPremium from '../main-card-premium/main-card-premium';
 
-function MainCard(props) {
-  const {offer, hover = () => {}, isAuth} = props;
+function OffersItem(props) {
+  const {offer, hoverHandler = () => {}, isAuth} = props;
   const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
   const history = useHistory();
-
-  function formatRating (value) {
-    return Math.round(value) * 100 / 5;
-  }
 
   function toggleFavorite(evt) {
     evt.preventDefault();
@@ -24,7 +20,7 @@ function MainCard(props) {
   }
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={(e) => { hover(e, offer.location); }}>
+    <article className="cities__place-card place-card" onMouseEnter={(e) => { hoverHandler(e, offer.location); }}>
 
       {offer.isPremium && <MainCardPremium>Premium</MainCardPremium>}
 
@@ -49,7 +45,7 @@ function MainCard(props) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${formatRating(offer.rating)}%` }}>
+            <span style={{ width: `${useFormatRating(offer.rating)}%` }}>
             </span>
             <span className="visually-hidden">Rating</span>
           </div>
@@ -63,10 +59,10 @@ function MainCard(props) {
   );
 }
 
-MainCard.propTypes = {
+OffersItem.propTypes = {
   offer: OfferProp,
-  hover: PropTypes.func,
+  hoverHandler: PropTypes.func,
   isAuth: PropTypes.bool.isRequired,
 };
 
-export default MainCard;
+export default OffersItem;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FavoritesCard from '../favorites-card/favorites-card';
-import OffersProp from '../../pages/offer/offer.prop';
+import OffersProp from '../../offer.prop';
 
 function FavoriteList(props) {
   const { cityData } = props;
