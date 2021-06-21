@@ -12,7 +12,13 @@ function Main(props) {
   const { offers, locations, isAuth, auth } = props;
   const INIT_INDEX_CITY = 0;
   const CITY_OFFERS_DATA = offers.filter((offer) => offer.city.name === locations[INIT_INDEX_CITY]);
-  const SORT_LIST = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
+  const SortList = {
+    POPULAR: 'Popular',
+    PRICE_LOW: 'Price: low to high',
+    PRICE_HIGH: 'Price: high to low',
+    TOP_RATED: 'Top rated first',
+  };
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
   const [ offersData, setOffersData ] = useState({
@@ -20,10 +26,22 @@ function Main(props) {
     activeCity: INIT_INDEX_CITY,
     totalOffers: CITY_OFFERS_DATA.length,
     cardLocation: {},
-    sorting: SORT_LIST[0],
+    sorting: SortList.POPULAR,
   });
 
-  function changeCity(index) {
+  function getSortListArray() {
+    const SortListArray = [];
+
+    for (const key in SortList) {
+      SortListArray.push(SortList[key]);
+    }
+
+    return SortListArray;
+  }
+
+  function changeCity(evt, index) {
+    evt.preventDefault();
+
     const data = offers.filter((offer) => offer.city.name === locations[index]);
 
     setOffersData({
@@ -32,7 +50,7 @@ function Main(props) {
       activeCity: index,
       totalOffers: data.length,
       cardLocation: {},
-      sorting: SORT_LIST[0],
+      sorting: SortList.POPULAR,
     });
   }
 
@@ -53,13 +71,13 @@ function Main(props) {
     const data = offersData.offersCity;
     toggleDropVisible(!visibleSortList);
     switch (text) {
-      case 'Price: low to high':
+      case SortList.PRICE_LOW:
         data.sort((a, b) => a.price - b.price);
         break;
-      case 'Price: high to low':
+      case SortList.PRICE_HIGH:
         data.sort((a, b) => b.price - a.price);
         break;
-      case 'Top rated first':
+      case SortList.TOP_RATED:
         data.sort((a, b) => b.rating - a.rating);
         break;
       default:
@@ -101,7 +119,7 @@ function Main(props) {
                   </span>
                   <ul className={`places__options places__options--custom ${visibleSortList ? 'places__options--opened' : ''}`}>
 
-                    {SORT_LIST.map((item) => <li key={item} onClick={sortHandler} className={`places__option ${offersData.sorting === item ? 'places__option--active' : ''}`} tabIndex="0">{item}</li> )}
+                    {getSortListArray().map((item) => <li key={item} onClick={sortHandler} className={`places__option ${offersData.sorting === item ? 'places__option--active' : ''}`} tabIndex="0">{item}</li> )}
 
                   </ul>
                 </form>

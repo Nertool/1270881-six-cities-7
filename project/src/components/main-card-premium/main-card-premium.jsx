@@ -10,7 +10,7 @@ function MainCardPremium(props) {
 }
 
 MainCardPremium.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.string.isRequired,
 };
 
 export default MainCardPremium;

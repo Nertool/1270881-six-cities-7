@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import MainLocationTab from '../main-location-tab/main-location-tab';
@@ -6,30 +6,17 @@ import MainLocationTab from '../main-location-tab/main-location-tab';
 function MainLocations(props) {
 
   const { locations, activeCity, changeCity } = props;
-  let statusActiveClasses = [false, false, false, false, false, false];
-  statusActiveClasses[activeCity] = true;
-  const [ activeClass, setActiveClass ] = useState(statusActiveClasses);
-
-  function changeLocation(evt, index) {
-    evt.preventDefault();
-    changeCity(index);
-    statusActiveClasses = [false, false, false, false, false, false];
-    statusActiveClasses[index] = true;
-    setActiveClass(statusActiveClasses);
-  }
 
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-
-          {locations.map((location, index) => {
-            const keyValue = `${index}-${location}`;
+          {locations.map((city, index) => {
+            const keyValue = `${index}-${city}`;
             return (
-              <MainLocationTab key={keyValue} location={location} isActive={activeClass[index]} changeLocation={changeLocation} index={index} />
+              <MainLocationTab key={keyValue} cityName={city} cityIndex={index} changeCity={changeCity} className={activeCity === index ? 'tabs__item--active' : ''} />
             );
           })}
-
         </ul>
       </section>
     </div>

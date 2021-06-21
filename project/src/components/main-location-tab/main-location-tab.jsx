@@ -2,22 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function MainLocationTab(props) {
-  const { location, isActive, changeLocation, index } = props;
+  const { cityName, changeCity, cityIndex, className } = props;
 
   return (
     <li className="locations__item">
-      <a className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`} onClick={ (e) => { changeLocation(e, index); } } href="#s">
-        <span>{ location }</span>
+      <a className={`locations__item-link tabs__item ${className}`} onClick={ (evt) => { changeCity(evt, cityIndex); } } href="#s">
+        <span>{ cityName }</span>
       </a>
     </li>
   );
 }
 
 MainLocationTab.propTypes = {
-  location: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
-  changeLocation: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
+  cityName: PropTypes.string.isRequired,
+  changeCity: PropTypes.func.isRequired,
+  cityIndex: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
 
 export default MainLocationTab;
