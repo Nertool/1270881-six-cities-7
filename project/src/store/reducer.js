@@ -14,10 +14,7 @@ const reducer = (state = initialState, action) => {
         activeCity: action.payload,
       };
     case ActionType.FILLING_LIST_OFFERS:
-      return {
-        ...state,
-        offers: action.payload,
-      };
+      return state;
     default:
       return state;
   }

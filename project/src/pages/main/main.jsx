@@ -8,24 +8,14 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
-import {cities} from '../../const';
+import {cities, SortList} from '../../const';
 
 function Main(props) {
   const { offers, isAuth, auth, activeCity, onChangeCity } = props;
-  const CITY_OFFERS_DATA = offers.filter((offer) => offer.city.name === cities[activeCity]);
-
-  const SortList = {
-    POPULAR: 'Popular',
-    PRICE_LOW: 'Price: low to high',
-    PRICE_HIGH: 'Price: high to low',
-    TOP_RATED: 'Top rated first',
-  };
+  const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
-
   const [ offersData, setOffersData ] = useState({
-    offersCity: offers.filter((offer) => offer.city.name === cities[activeCity]),
-    totalOffers: CITY_OFFERS_DATA.length,
     cardLocation: {},
     sorting: SortList.POPULAR,
   });
@@ -42,17 +32,6 @@ function Main(props) {
 
   function changeCity(evt, index) {
     evt.preventDefault();
-
-    const data = offers.filter((offer) => offer.city.name === cities[index]);
-
-    setOffersData({
-      ...offersData,
-      offersCity: data,
-      totalOffers: data.length,
-      cardLocation: {},
-      sorting: SortList.POPULAR,
-    });
-
     onChangeCity(index);
   }
 
@@ -70,7 +49,7 @@ function Main(props) {
 
   function sortHandler(evt) {
     const text = evt.target.innerText;
-    const data = offersData.offersCity;
+    const data = offers;
     toggleDropVisible(!visibleSortList);
     switch (text) {
       case SortList.PRICE_LOW:
@@ -87,7 +66,6 @@ function Main(props) {
     }
     setOffersData({
       ...offersData,
-      offersCity: data,
       sorting: text,
     });
   }
@@ -105,11 +83,11 @@ function Main(props) {
         <div className="cities">
 
           {
-            !!offersData.totalOffers &&
+            !!offersList.length &&
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersData.totalOffers} places to stay in {cities[activeCity]}</b>
+                <b className="places__found">{offersList.length} places to stay in {cities[activeCity]}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by </span>
                   <span className="places__sorting-type" tabIndex="0" onClick={toggleDropVisible}>
@@ -126,13 +104,13 @@ function Main(props) {
                   </ul>
                 </form>
 
-                <OffersList data={offersData.offersCity} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
+                <OffersList data={offersList} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
 
               </section>
-              <MainMap cardLocation={offersData.cardLocation} offersList={offersData.offersCity} />
+              <MainMap cardLocation={offersData.cardLocation} offersList={offersList} />
             </div>
           }
-          { !offersData.totalOffers && <MainEmpty /> }
+          { !offersList.length && <MainEmpty /> }
         </div>
       </main>
     </div>
@@ -149,11 +127,13 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
+  offers: state.offers,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(index) {
     dispatch(ActionCreator.changeCity(index));
+    dispatch(ActionCreator.fillingListOffers());
   },
 });
 

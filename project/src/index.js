@@ -7,7 +7,6 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import App from './app';
 
-import offers from './mocks/offers';
 import favorites from './mocks/favorites';
 import near from './mocks/near';
 import reviews from './mocks/reviews';
@@ -18,6 +17,6 @@ const store = createStore(reducer, composeWithDevTools());
 
 ReactDOM.render(
   <Provider store={store}>
-    <App offers={offers} favorites={favorites} near={near} isLogged={IS_AUTH} reviews={reviews} />
+    <App favorites={favorites} near={near} isLogged={IS_AUTH} reviews={reviews} />
   </Provider>,
   document.getElementById('root'));
