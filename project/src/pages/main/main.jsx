@@ -6,11 +6,13 @@ import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
 import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
+import {cities} from '../../const';
 
 function Main(props) {
-  const { offers, locations, isAuth, auth } = props;
-  const INIT_INDEX_CITY = 0;
-  const CITY_OFFERS_DATA = offers.filter((offer) => offer.city.name === locations[INIT_INDEX_CITY]);
+  const { offers, isAuth, auth, activeCity, onChangeCity } = props;
+  const CITY_OFFERS_DATA = offers.filter((offer) => offer.city.name === cities[activeCity]);
 
   const SortList = {
     POPULAR: 'Popular',
@@ -20,9 +22,9 @@ function Main(props) {
   };
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
+
   const [ offersData, setOffersData ] = useState({
-    offersCity: offers.filter((offer) => offer.city.name === locations[INIT_INDEX_CITY]),
-    activeCity: INIT_INDEX_CITY,
+    offersCity: offers.filter((offer) => offer.city.name === cities[activeCity]),
     totalOffers: CITY_OFFERS_DATA.length,
     cardLocation: {},
     sorting: SortList.POPULAR,
@@ -41,16 +43,17 @@ function Main(props) {
   function changeCity(evt, index) {
     evt.preventDefault();
 
-    const data = offers.filter((offer) => offer.city.name === locations[index]);
+    const data = offers.filter((offer) => offer.city.name === cities[index]);
 
     setOffersData({
       ...offersData,
       offersCity: data,
-      activeCity: index,
       totalOffers: data.length,
       cardLocation: {},
       sorting: SortList.POPULAR,
     });
+
+    onChangeCity(index);
   }
 
   function hoverHandler(evt, offerLocation) {
@@ -97,7 +100,7 @@ function Main(props) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
 
-        <MainLocations locations={ locations } activeCity={ offersData.activeCity } changeCity={ changeCity } />
+        <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCity } />
 
         <div className="cities">
 
@@ -106,7 +109,7 @@ function Main(props) {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersData.totalOffers} places to stay in {locations[offersData.activeCity]}</b>
+                <b className="places__found">{offersData.totalOffers} places to stay in {cities[activeCity]}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by </span>
                   <span className="places__sorting-type" tabIndex="0" onClick={toggleDropVisible}>
@@ -138,9 +141,21 @@ function Main(props) {
 
 Main.propTypes = {
   offers: PropTypes.arrayOf(OffersProp),
-  locations: PropTypes.array.isRequired,
   isAuth: PropTypes.bool.isRequired,
   auth: PropTypes.func.isRequired,
+  activeCity: PropTypes.number.isRequired,
+  onChangeCity: PropTypes.func.isRequired,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  activeCity: state.activeCity,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeCity(index) {
+    dispatch(ActionCreator.changeCity(index));
+  },
+});
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

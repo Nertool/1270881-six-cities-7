@@ -11,7 +11,7 @@ import Offer from './pages/offer/offer';
 import NotFound from './pages/not-found/not-found';
 
 function App(props) {
-  const { offers,  locations, favorites, near, isLogged, reviews } = props;
+  const { offers, favorites, near, isLogged, reviews } = props;
   const [ isAuth, setIsAuth ] = useState(isLogged);
 
   function auth() {
@@ -22,7 +22,7 @@ function App(props) {
     <BrowserRouter>
       <Switch>
         <Route exact path='/'>
-          <Main offers={ offers } locations={ locations } isAuth={isAuth} auth={auth} />
+          <Main offers={ offers } isAuth={isAuth} auth={auth} />
         </Route>
         <Route exact path='/login'>
           { isAuth ? <Redirect to="/" /> : <Login auth={auth} /> }
@@ -43,7 +43,6 @@ function App(props) {
 
 App.propTypes = {
   offers: PropTypes.arrayOf(OffersProp),
-  locations: PropTypes.array.isRequired,
   favorites: PropTypes.arrayOf(OffersProp),
   near: PropTypes.arrayOf(OffersProp),
   isLogged: PropTypes.bool.isRequired,
