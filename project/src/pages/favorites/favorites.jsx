@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AppHeader from '../../components/app-header/app-header';
 import AppFooter from '../../components/app-footer/app-footer';
 import FavoriteList from '../../components/favorites-list/favorites-list';
-import OffersProp from '../offer/offer.prop';
+import OffersProp from '../../offer.prop';
 
 function Favorites(props) {
   const { favorites, isAuth, auth } = props;

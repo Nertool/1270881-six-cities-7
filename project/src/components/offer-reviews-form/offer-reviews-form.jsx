@@ -1,7 +1,7 @@
 import React from 'react';
-import OfferFormRating from '../offer-form-rating/offer-form-rating';
+import OfferReviewsFormRating from '../offer-reviews-form-rating/offer-reviews-form-rating';
 
-class OfferForm extends React.PureComponent {
+class OfferReviewsForm extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -41,7 +41,7 @@ class OfferForm extends React.PureComponent {
       <form className="reviews__form form" action="#" method="post" onSubmit={this.submitHandler}>
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
 
-        <OfferFormRating value={this.state.rating} changeRating={this.changeRating}/>
+        <OfferReviewsFormRating value={this.state.rating} changeRating={this.changeRating}/>
 
         <textarea
           className="reviews__textarea form__textarea"
@@ -66,4 +66,4 @@ class OfferForm extends React.PureComponent {
   }
 }
 
-export default OfferForm;
+export default OfferReviewsForm;

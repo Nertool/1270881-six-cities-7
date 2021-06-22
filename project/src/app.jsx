@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import OffersProp from './pages/offer/offer.prop';
+import OffersProp from './offer.prop';
+import ReviewsProp from './review.prop';
 
 import Main from './pages/main/main';
 import Login from './pages/login/login';
@@ -10,7 +11,7 @@ import Offer from './pages/offer/offer';
 import NotFound from './pages/not-found/not-found';
 
 function App(props) {
-  const { offers,  locations, favorites, near, isLogged } = props;
+  const { offers,  locations, favorites, near, isLogged, reviews } = props;
   const [ isAuth, setIsAuth ] = useState(isLogged);
 
   function auth() {
@@ -30,7 +31,7 @@ function App(props) {
           { !isAuth ? <Redirect to="/login" /> : <Favorites favorites={ favorites } isAuth={isAuth} auth={auth} /> }
         </Route>
         <Route exact path='/offer/:id'>
-          <Offer near={ near } isAuth={isAuth} auth={auth} />
+          <Offer near={ near } isAuth={isAuth} auth={auth} reviews={reviews} />
         </Route>
         <Route>
           <NotFound isAuth={isAuth} auth={auth} />
@@ -46,6 +47,7 @@ App.propTypes = {
   favorites: PropTypes.arrayOf(OffersProp),
   near: PropTypes.arrayOf(OffersProp),
   isLogged: PropTypes.bool.isRequired,
+  reviews: PropTypes.arrayOf(ReviewsProp),
 };
 
 export default App;

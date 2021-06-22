@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import OffersProp from '../offer/offer.prop';
-
-import MainCard from '../../components/main-card/main-card';
+import OffersProp from '../../offer.prop';
 import AppHeader from '../../components/app-header/app-header';
 import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
 import MainEmpty from '../../components/main-empty/main-empty';
+import OffersList from '../../components/offers-list/offers-list';
 
 function Main(props) {
   const { offers, locations, isAuth, auth } = props;
@@ -54,7 +53,7 @@ function Main(props) {
     });
   }
 
-  function showActiveCard(evt, offerLocation) {
+  function hoverHandler(evt, offerLocation) {
     evt.preventDefault();
     setOffersData({
       ...offersData,
@@ -123,14 +122,9 @@ function Main(props) {
 
                   </ul>
                 </form>
-                <div className="cities__places-list places__list tabs__content">
 
-                  {offersData.offersCity.map((offer) => {
-                    const keyValue = `${offer.id}-${offer.title}`;
-                    return <MainCard key={keyValue} offer={offer} hover={showActiveCard} isAuth={isAuth} />;
-                  })}
+                <OffersList data={offersData.offersCity} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
 
-                </div>
               </section>
               <MainMap cardLocation={offersData.cardLocation} offersList={offersData.offersCity} />
             </div>

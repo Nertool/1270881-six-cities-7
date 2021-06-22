@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import OffersProp from '../../pages/offer/offer.prop';
+import OffersProp from '../../offer.prop';
 
-import MainCard from '../main-card/main-card';
+import OffersList from '../offers-list/offers-list';
 
 function OfferNear(props) {
   const { near, isAuth } = props;
@@ -11,11 +11,9 @@ function OfferNear(props) {
     <div className="container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
-        <div className="near-places__list places__list">
 
-          {near.map((n) => <MainCard key={n.id} offer={n} isAuth={isAuth}/>)}
+        <OffersList data={near} isAuth={isAuth} className='near-places__list' />
 
-        </div>
       </section>
     </div>
   );
