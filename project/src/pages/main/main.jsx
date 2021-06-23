@@ -6,24 +6,16 @@ import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
 import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
+import {cities, SortList} from '../../const';
 
 function Main(props) {
-  const { offers, locations, isAuth, auth } = props;
-  const INIT_INDEX_CITY = 0;
-  const CITY_OFFERS_DATA = offers.filter((offer) => offer.city.name === locations[INIT_INDEX_CITY]);
-
-  const SortList = {
-    POPULAR: 'Popular',
-    PRICE_LOW: 'Price: low to high',
-    PRICE_HIGH: 'Price: high to low',
-    TOP_RATED: 'Top rated first',
-  };
+  const { offers, isAuth, auth, activeCity, onChangeCity } = props;
+  const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
   const [ offersData, setOffersData ] = useState({
-    offersCity: offers.filter((offer) => offer.city.name === locations[INIT_INDEX_CITY]),
-    activeCity: INIT_INDEX_CITY,
-    totalOffers: CITY_OFFERS_DATA.length,
     cardLocation: {},
     sorting: SortList.POPULAR,
   });
@@ -40,17 +32,7 @@ function Main(props) {
 
   function changeCity(evt, index) {
     evt.preventDefault();
-
-    const data = offers.filter((offer) => offer.city.name === locations[index]);
-
-    setOffersData({
-      ...offersData,
-      offersCity: data,
-      activeCity: index,
-      totalOffers: data.length,
-      cardLocation: {},
-      sorting: SortList.POPULAR,
-    });
+    onChangeCity(index);
   }
 
   function hoverHandler(evt, offerLocation) {
@@ -67,7 +49,7 @@ function Main(props) {
 
   function sortHandler(evt) {
     const text = evt.target.innerText;
-    const data = offersData.offersCity;
+    const data = offers;
     toggleDropVisible(!visibleSortList);
     switch (text) {
       case SortList.PRICE_LOW:
@@ -84,7 +66,6 @@ function Main(props) {
     }
     setOffersData({
       ...offersData,
-      offersCity: data,
       sorting: text,
     });
   }
@@ -97,16 +78,16 @@ function Main(props) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
 
-        <MainLocations locations={ locations } activeCity={ offersData.activeCity } changeCity={ changeCity } />
+        <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCity } />
 
         <div className="cities">
 
           {
-            !!offersData.totalOffers &&
+            !!offersList.length &&
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersData.totalOffers} places to stay in {locations[offersData.activeCity]}</b>
+                <b className="places__found">{offersList.length} places to stay in {cities[activeCity]}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by </span>
                   <span className="places__sorting-type" tabIndex="0" onClick={toggleDropVisible}>
@@ -123,13 +104,13 @@ function Main(props) {
                   </ul>
                 </form>
 
-                <OffersList data={offersData.offersCity} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
+                <OffersList data={offersList} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
 
               </section>
-              <MainMap cardLocation={offersData.cardLocation} offersList={offersData.offersCity} />
+              <MainMap cardLocation={offersData.cardLocation} offersList={offersList} />
             </div>
           }
-          { !offersData.totalOffers && <MainEmpty /> }
+          { !offersList.length && <MainEmpty /> }
         </div>
       </main>
     </div>
@@ -138,9 +119,23 @@ function Main(props) {
 
 Main.propTypes = {
   offers: PropTypes.arrayOf(OffersProp),
-  locations: PropTypes.array.isRequired,
   isAuth: PropTypes.bool.isRequired,
   auth: PropTypes.func.isRequired,
+  activeCity: PropTypes.number.isRequired,
+  onChangeCity: PropTypes.func.isRequired,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  activeCity: state.activeCity,
+  offers: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeCity(index) {
+    dispatch(ActionCreator.changeCity(index));
+    dispatch(ActionCreator.fillingListOffers());
+  },
+});
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
