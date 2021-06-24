@@ -15,9 +15,7 @@ function Main(props) {
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
-  const [ offersData, setOffersData ] = useState({
-    cardLocation: {},
-  });
+  const [ activeOfferData, setActiveOfferData ] = useState({});
 
   switch (sortValue) {
     case SortList.PRICE_LOW:
@@ -48,12 +46,9 @@ function Main(props) {
     onChangeCity(index);
   }
 
-  function hoverHandler(evt, offerLocation) {
+  function hoverHandler(evt, data) {
     evt.preventDefault();
-    setOffersData({
-      ...offersData,
-      cardLocation: offerLocation,
-    });
+    setActiveOfferData(data);
   }
 
   function toggleDropVisible() {
@@ -102,7 +97,7 @@ function Main(props) {
                 <OffersList data={offersList} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
 
               </section>
-              <MainMap cardLocation={offersData.cardLocation} offersList={offersList} />
+              <MainMap cardLocation={activeOfferData} offersList={offersList} />
             </div>
           }
           { !offersList.length && <MainEmpty /> }
