@@ -11,14 +11,27 @@ import {ActionCreator} from '../../store/action';
 import {cities, SortList} from '../../const';
 
 function Main(props) {
-  const { offers, isAuth, auth, activeCity, onChangeCity } = props;
+  const { offers, isAuth, auth, activeCity, onChangeCity, sortValue, changeSortOffers } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
   const [ offersData, setOffersData ] = useState({
     cardLocation: {},
-    sorting: SortList.POPULAR,
   });
+
+  switch (sortValue) {
+    case SortList.PRICE_LOW:
+      offersList.sort((a, b) => a.price - b.price);
+      break;
+    case SortList.PRICE_HIGH:
+      offersList.sort((a, b) => b.price - a.price);
+      break;
+    case SortList.TOP_RATED:
+      offersList.sort((a, b) => b.rating - a.rating);
+      break;
+    default:
+      offersList.sort((a, b) => a.id - b.id);
+  }
 
   function getSortListArray() {
     const SortListArray = [];
@@ -48,26 +61,8 @@ function Main(props) {
   }
 
   function sortHandler(evt) {
-    const text = evt.target.innerText;
-    const data = offers;
+    changeSortOffers(evt.target.innerText);
     toggleDropVisible(!visibleSortList);
-    switch (text) {
-      case SortList.PRICE_LOW:
-        data.sort((a, b) => a.price - b.price);
-        break;
-      case SortList.PRICE_HIGH:
-        data.sort((a, b) => b.price - a.price);
-        break;
-      case SortList.TOP_RATED:
-        data.sort((a, b) => b.rating - a.rating);
-        break;
-      default:
-        data.sort((a, b) => a.id - b.id);
-    }
-    setOffersData({
-      ...offersData,
-      sorting: text,
-    });
   }
 
   return (
@@ -91,7 +86,7 @@ function Main(props) {
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by </span>
                   <span className="places__sorting-type" tabIndex="0" onClick={toggleDropVisible}>
-                    { offersData.sorting }
+                    { sortValue }
                     <svg className="places__sorting-arrow" width="7" height="4">
                       <use xlinkHref="#icon-arrow-select">
                       </use>
@@ -99,7 +94,7 @@ function Main(props) {
                   </span>
                   <ul className={`places__options places__options--custom ${visibleSortList ? 'places__options--opened' : ''}`}>
 
-                    {getSortListArray().map((item) => <li key={item} onClick={sortHandler} className={`places__option ${offersData.sorting === item ? 'places__option--active' : ''}`} tabIndex="0">{item}</li> )}
+                    {getSortListArray().map((item) => <li key={item} onClick={sortHandler} className={`places__option ${sortValue === item ? 'places__option--active' : ''}`} tabIndex="0">{item}</li> )}
 
                   </ul>
                 </form>
@@ -123,17 +118,23 @@ Main.propTypes = {
   auth: PropTypes.func.isRequired,
   activeCity: PropTypes.number.isRequired,
   onChangeCity: PropTypes.func.isRequired,
+  sortValue: PropTypes.string.isRequired,
+  changeSortOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   offers: state.offers,
+  sortValue: state.sortValue,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(index) {
     dispatch(ActionCreator.changeCity(index));
     dispatch(ActionCreator.fillingListOffers());
+  },
+  changeSortOffers(type) {
+    dispatch(ActionCreator.changeSortOffers(type));
   },
 });
 

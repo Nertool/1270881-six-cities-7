@@ -1,9 +1,11 @@
 import offers from '../mocks/offers';
 import {ActionType} from './action';
+import {SortList} from '../const';
 
 const initialState = {
   activeCity: 0,
   offers: offers,
+  sortValue: SortList.POPULAR,
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,6 +17,11 @@ const reducer = (state = initialState, action) => {
       };
     case ActionType.FILLING_LIST_OFFERS:
       return state;
+    case ActionType.CHANGE_SORT_OFFERS:
+      return {
+        ...state,
+        sortValue: action.payload,
+      };
     default:
       return state;
   }
