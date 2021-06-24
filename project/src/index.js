@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {reducer} from './store/reducer';
-import {createStore} from 'redux';
+import thunk from 'redux-thunk';
+import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import {createAPI} from './services/api';
+import {reducer} from './store/reducer';
+import {fetchOffersList} from './store/api-actions';
 
 import App from './app';
 
@@ -13,7 +16,16 @@ import reviews from './mocks/reviews';
 
 const IS_AUTH = true;
 
-const store = createStore(reducer, composeWithDevTools());
+const api = createAPI();
+
+const store = createStore(
+  reducer,
+  composeWithDevTools(
+    applyMiddleware(thunk.withExtraArgument(api)),
+  ),
+);
+
+store.dispatch(fetchOffersList());
 
 ReactDOM.render(
   <Provider store={store}>

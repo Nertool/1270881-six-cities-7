@@ -3,19 +3,26 @@ import PropTypes from 'prop-types';
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import OffersProp from './offer.prop';
 import ReviewsProp from './review.prop';
-
+import {connect} from 'react-redux';
 import Main from './pages/main/main';
 import Login from './pages/login/login';
 import Favorites from './pages/favorites/favorites';
 import Offer from './pages/offer/offer';
 import NotFound from './pages/not-found/not-found';
+import AppLoader from './components/app-loader/app-loader';
 
 function App(props) {
-  const { favorites, near, isLogged, reviews } = props;
+  const { favorites, near, isLogged, reviews, isDataLoading } = props;
   const [ isAuth, setIsAuth ] = useState(isLogged);
 
   function auth() {
     setIsAuth(!isAuth);
+  }
+
+  if (isDataLoading) {
+    return (
+      <AppLoader />
+    );
   }
 
   return (
@@ -46,6 +53,12 @@ App.propTypes = {
   near: PropTypes.arrayOf(OffersProp),
   isLogged: PropTypes.bool.isRequired,
   reviews: PropTypes.arrayOf(ReviewsProp),
+  isDataLoading: PropTypes.bool.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  isDataLoading: state.isDataLoading,
+});
+
+export {App};
+export default connect(mapStateToProps)(App);

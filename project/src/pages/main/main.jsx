@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
+import {cities, SortList} from '../../const';
 import AppHeader from '../../components/app-header/app-header';
 import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
 import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
-import {cities, SortList} from '../../const';
 
 function Main(props) {
   const { offers, isAuth, auth, activeCity, onChangeCity, sortValue, changeSortOffers } = props;
@@ -71,7 +71,6 @@ function Main(props) {
         <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCity } />
 
         <div className="cities">
-
           {
             !!offersList.length &&
             <div className="cities__places-container container">
