@@ -2,6 +2,7 @@ export const ActionType = {
   CHANGE_CITY: 'main/changeCity',
   FILLING_LIST_OFFERS: 'main/fillingListOffers',
   CHANGE_SORT_OFFERS: 'main/changeSortOffers',
+  LOAD_OFFERS: 'data/loadOffers',
 };
 
 export const ActionCreator = {
@@ -16,5 +17,9 @@ export const ActionCreator = {
   changeSortOffers: (type) => ({
     type: ActionType.CHANGE_SORT_OFFERS,
     payload: type,
+  }),
+  loadOffers: (offers) => ({
+    type: ActionType.LOAD_OFFERS,
+    payload: offers,
   }),
 };
