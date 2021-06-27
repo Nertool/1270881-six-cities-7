@@ -1,20 +1,21 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+import {connect} from 'react-redux';
 import LoginFormControl from '../login-form-control/login-form-control';
+import {login} from '../../store/api-actions';
 
 function LoginForm(props) {
   const { auth } = props;
-  const history = useHistory();
 
   function submitHandler(evt) {
     evt.preventDefault();
     const formData = new FormData(evt.target);
 
     if (formData.get('email') && formData.get('password')) {
-      auth();
-      history.push('/');
+      auth({
+        email: formData.get('email'),
+        password: formData.get('password'),
+      });
     }
   }
 
@@ -33,4 +34,11 @@ LoginForm.propTypes = {
   auth: PropTypes.func.isRequired,
 };
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => ({
+  auth(data) {
+    dispatch(login(data));
+  },
+});
+
+export {LoginForm};
+export default connect(null, mapDispatchToProps)(LoginForm);

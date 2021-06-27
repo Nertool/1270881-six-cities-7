@@ -13,12 +13,12 @@ import OfferInfo from '../../components/offer-info/offer-info';
 import OfferMap from '../../components/offer-map/offer-map';
 
 function Offer(props) {
-  const { near, isAuth, auth, reviews } = props;
+  const { near, isAuth, reviews } = props;
 
   return (
     <div className="page">
 
-      <AppHeader isAuth={isAuth} auth={auth} />
+      <AppHeader />
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -54,7 +54,6 @@ function Offer(props) {
 Offer.propTypes = {
   near: PropTypes.arrayOf(OffersProp),
   isAuth: PropTypes.bool.isRequired,
-  auth: PropTypes.func.isRequired,
   reviews: PropTypes.arrayOf(ReviewsProp),
 };
 

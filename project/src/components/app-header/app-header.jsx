@@ -1,16 +1,13 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {logout} from '../../store/api-actions';
+import {AuthStatus} from '../../const';
 
 function AppHeader(props) {
-  const { isAuth, auth } = props;
-  const history = useHistory();
-
-  function logout(evt) {
-    evt.preventDefault();
-    auth();
-    history.push('/login');
-  }
+  const { authStatus, userLogout, userEmail } = props;
+  const isAuth = authStatus === AuthStatus.AUTH;
 
   return (
     <header className="header">
@@ -32,11 +29,11 @@ function AppHeader(props) {
                   <Link to='/favorites' className="header__nav-link header__nav-link--profile">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    <span className="header__user-name user__name">{ userEmail }</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#s" onClick={logout}>
+                  <a className="header__nav-link" href="#s" onClick={userLogout}>
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -65,8 +62,22 @@ function AppHeader(props) {
 }
 
 AppHeader.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-  auth: PropTypes.func.isRequired,
+  authStatus: PropTypes.string.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  userEmail: PropTypes.string,
 };
 
-export default AppHeader;
+const mapStoreInProps = (store) => ({
+  authStatus: store.authorizationStatus,
+  userEmail: store.userData.email,
+});
+
+const mapDispatchInProps = (dispatch) => ({
+  userLogout(evt) {
+    evt.preventDefault();
+    dispatch(logout());
+  },
+});
+
+export {AppHeader};
+export default connect(mapStoreInProps, mapDispatchInProps)(AppHeader);
