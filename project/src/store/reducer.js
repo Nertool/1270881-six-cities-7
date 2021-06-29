@@ -1,11 +1,13 @@
 import {ActionType} from './action';
-import {SortList} from '../const';
+import {AuthStatus, SortList} from '../const';
 
 const initialState = {
   activeCity: 0,
   offers: [],
   sortValue: SortList.POPULAR,
   isDataLoading: true,
+  authorizationStatus: AuthStatus.UNKNOWN,
+  userData: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +29,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoading: false,
+      };
+    case ActionType.SET_AUTH_STATUS:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+      };
+    case ActionType.CHANGE_USER_DATA:
+      return {
+        ...state,
+        userData: action.payload,
       };
     default:
       return state;

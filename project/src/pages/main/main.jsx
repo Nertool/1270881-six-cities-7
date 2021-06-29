@@ -11,7 +11,7 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
 
 function Main(props) {
-  const { offers, isAuth, auth, activeCity, onChangeCity, sortValue, changeSortOffers } = props;
+  const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
@@ -63,7 +63,7 @@ function Main(props) {
   return (
     <div className="page page--gray page--main">
 
-      <AppHeader isAuth={isAuth} auth={auth} />
+      <AppHeader />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -109,7 +109,6 @@ function Main(props) {
 Main.propTypes = {
   offers: PropTypes.arrayOf(OffersProp),
   isAuth: PropTypes.bool.isRequired,
-  auth: PropTypes.func.isRequired,
   activeCity: PropTypes.number.isRequired,
   onChangeCity: PropTypes.func.isRequired,
   sortValue: PropTypes.string.isRequired,

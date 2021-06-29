@@ -7,7 +7,7 @@ import FavoriteList from '../../components/favorites-list/favorites-list';
 import OffersProp from '../../offer.prop';
 
 function Favorites(props) {
-  const { favorites, isAuth, auth } = props;
+  const { favorites } = props;
 
   const cities = [];
   const favoriteData = [];
@@ -30,7 +30,7 @@ function Favorites(props) {
   return (
     <div className="page">
 
-      <AppHeader isAuth={isAuth} auth={auth} />
+      <AppHeader />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
@@ -53,8 +53,6 @@ function Favorites(props) {
 
 Favorites.propTypes = {
   favorites: PropTypes.arrayOf(OffersProp),
-  isAuth: PropTypes.bool.isRequired,
-  auth: PropTypes.func.isRequired,
 };
 
 export default Favorites;

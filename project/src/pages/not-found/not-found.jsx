@@ -1,17 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import style from './not-found.module.css';
-import PropTypes from 'prop-types';
-
 import AppHeader from '../../components/app-header/app-header';
 import AppFooter from '../../components/app-footer/app-footer';
 
-function NotFound(props) {
-  const { isAuth, auth } = props;
-
+function NotFound() {
   return (
     <>
-      <AppHeader isAuth={isAuth} auth={auth}/>
+      <AppHeader />
 
       <div className={ style.wrapper }>
         <h1>404</h1>
@@ -23,10 +19,5 @@ function NotFound(props) {
     </>
   );
 }
-
-NotFound.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-  auth: PropTypes.func.isRequired,
-};
 
 export default NotFound;

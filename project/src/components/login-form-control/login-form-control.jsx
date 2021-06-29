@@ -15,7 +15,7 @@ function LoginFormControl(props) {
         name={ name }
         placeholder={ placeholder }
         required=""
-        onChange={ (evt) => setInputValue(evt.target.value) }
+        onChange={ (evt) => setInputValue(evt.target.value.trim()) }
         value={ inputValue }
       />
     </div>

@@ -14,3 +14,9 @@ export const APIRoute = {
   LOGIN: '/login',
   LOGOUT: '/logout',
 };
+
+export const AuthStatus = {
+  AUTH: 'auth',
+  NOT_AUTH: 'notAuth',
+  UNKNOWN: 'unknown',
+};
