@@ -33,3 +33,18 @@ export const logout = () => (dispatch, _getState, api) => (
       dispatch(ActionCreator.changeUserData({}));
     })
 );
+
+export const getOfferData = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.OFFERS}/${id}`)
+    .then(({data}) => dispatch(ActionCreator.requestOfferData(formatJSON(data))))
+);
+
+export const getReviewsList = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.REVIEWS}/${id}`)
+    .then(({data}) => dispatch(ActionCreator.loadReviews(formatJSON(data))))
+);
+
+export const getNearData = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.OFFERS}/${id}/nearby`)
+    .then(({data}) => dispatch(ActionCreator.loadNearOffers(formatJSON(data))))
+);

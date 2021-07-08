@@ -13,8 +13,6 @@ import {ActionCreator} from './store/action';
 import App from './app';
 
 import favorites from './mocks/favorites';
-import near from './mocks/near';
-import reviews from './mocks/reviews';
 
 const api = createAPI(
   () => store.dispatch(ActionCreator.setAuthStatus(AuthStatus.NOT_AUTH)),
@@ -32,6 +30,6 @@ store.dispatch(fetchOffersList());
 
 ReactDOM.render(
   <Provider store={store}>
-    <App favorites={favorites} near={near} reviews={reviews} />
+    <App favorites={favorites} />
   </Provider>,
   document.getElementById('root'));

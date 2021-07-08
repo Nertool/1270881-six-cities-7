@@ -6,8 +6,12 @@ const initialState = {
   offers: [],
   sortValue: SortList.POPULAR,
   isDataLoading: true,
+  isDataOfferLoading: true,
   authorizationStatus: AuthStatus.UNKNOWN,
   userData: {},
+  offerData: {},
+  reviews: [],
+  nearData: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +43,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userData: action.payload,
+      };
+    case ActionType.REQUEST_OFFER_DATA:
+      return {
+        ...state,
+        offerData: action.payload,
+      };
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    case ActionType.LOAD_NEAR_OFFERS:
+      return {
+        ...state,
+        nearData: action.payload,
       };
     default:
       return state;

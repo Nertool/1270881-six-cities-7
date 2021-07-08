@@ -1,30 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function OfferGallery() {
+function OfferGallery({images}) {
   return (
     <div className="property__gallery-container container">
       <div className="property__gallery">
-        <div className="property__image-wrapper">
-          <img className="property__image" src="img/room.jpg" alt="Studio" />
-        </div>
-        <div className="property__image-wrapper">
-          <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-        </div>
-        <div className="property__image-wrapper">
-          <img className="property__image" src="img/apartment-02.jpg" alt="Studio" />
-        </div>
-        <div className="property__image-wrapper">
-          <img className="property__image" src="img/apartment-03.jpg" alt="Studio" />
-        </div>
-        <div className="property__image-wrapper">
-          <img className="property__image" src="img/studio-01.jpg" alt="Studio" />
-        </div>
-        <div className="property__image-wrapper">
-          <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-        </div>
+
+        { images.map((imgSrc, index) => {
+          if (index < 6) {
+            return (
+              <div key={imgSrc} className="property__image-wrapper">
+                <img className="property__image" src={ imgSrc } alt="Studio"/>
+              </div>
+            );
+          }
+        }) }
+
       </div>
     </div>
   );
 }
+
+OfferGallery.propTypes = {
+  images: PropTypes.array.isRequired,
+};
 
 export default OfferGallery;

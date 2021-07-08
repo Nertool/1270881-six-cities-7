@@ -7,7 +7,8 @@ import 'leaflet/dist/leaflet.css';
 
 function OfferMap({ near }) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, near[0].city.location);
+  const cityLocation = near.length ? near[0].city.location : {};
+  const map = useMap(mapRef, cityLocation);
   const [isEnableScrollingMap, setIsEnableScrollingMap] = useState(true);
   const defaultIcon = leaflet.icon({
     iconUrl: 'img/pin.svg',
@@ -17,6 +18,7 @@ function OfferMap({ near }) {
 
   useEffect(() => {
     if (map) {
+
       if (isEnableScrollingMap) {
         map.scrollWheelZoom.disable();
         setIsEnableScrollingMap(false);
@@ -32,9 +34,8 @@ function OfferMap({ near }) {
           })
           .addTo(map);
       });
-
     }
-  }, [map]);
+  }, [map, near]);
 
   return (
     <div className='container'>

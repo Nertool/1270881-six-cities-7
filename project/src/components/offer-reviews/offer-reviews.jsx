@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReviewsProp from '../../review.prop';
 import OfferReviewsForm from '../offer-reviews-form/offer-reviews-form';
 import OfferReviewsList from '../offer-reviews-list/offer-reviews-list';
+import ReviewsProp from '../../review.prop';
 
 function OfferReviews({ reviews }) {
   return (

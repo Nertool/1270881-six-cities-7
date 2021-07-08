@@ -5,6 +5,9 @@ export const ActionType = {
   LOAD_OFFERS: 'data/loadOffers',
   SET_AUTH_STATUS: 'user/setAuthStatus',
   CHANGE_USER_DATA: 'user/changeUserData',
+  REQUEST_OFFER_DATA: 'offer/requestOfferData',
+  LOAD_REVIEWS: 'offer/loadReviews',
+  LOAD_NEAR_OFFERS: 'offer/loadNearOffers',
 };
 
 export const ActionCreator = {
@@ -30,6 +33,18 @@ export const ActionCreator = {
   }),
   changeUserData: (data) => ({
     type: ActionType.CHANGE_USER_DATA,
+    payload: data,
+  }),
+  requestOfferData: (data) => ({
+    type: ActionType.REQUEST_OFFER_DATA,
+    payload: data,
+  }),
+  loadReviews: (data) => ({
+    type: ActionType.LOAD_REVIEWS,
+    payload: data,
+  }),
+  loadNearOffers: (data) => ({
+    type: ActionType.LOAD_NEAR_OFFERS,
     payload: data,
   }),
 };
