@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {createAPI} from './services/api';
 import {reducer} from './store/reducer';
-import {checkAuth, fetchOffersList} from './store/api-actions';
+import {checkAuth} from './store/api-actions';
 import {AuthStatus} from './const';
 import {ActionCreator} from './store/action';
 
@@ -26,7 +26,6 @@ const store = createStore(
 );
 
 store.dispatch(checkAuth());
-store.dispatch(fetchOffersList());
 
 ReactDOM.render(
   <Provider store={store}>

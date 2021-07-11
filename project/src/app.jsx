@@ -8,18 +8,11 @@ import Login from './pages/login/login';
 import Favorites from './pages/favorites/favorites';
 import Offer from './pages/offer/offer';
 import NotFound from './pages/not-found/not-found';
-import AppLoader from './components/app-loader/app-loader';
 import {isAuth} from './const';
 import PrivateRoute from './components/private-route/private-route';
 
 function App(props) {
-  const { favorites, isDataLoading, authStatus } = props;
-
-  if (isDataLoading) {
-    return (
-      <AppLoader />
-    );
-  }
+  const { favorites, authStatus } = props;
 
   return (
     <BrowserRouter>
@@ -44,7 +37,6 @@ function App(props) {
 
 App.propTypes = {
   favorites: PropTypes.arrayOf(OffersProp),
-  isDataLoading: PropTypes.bool.isRequired,
   authStatus: PropTypes.string.isRequired,
 };
 

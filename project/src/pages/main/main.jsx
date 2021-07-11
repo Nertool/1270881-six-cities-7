@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
@@ -9,13 +9,30 @@ import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
 import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
+import {fetchOffersList} from "../../store/api-actions";
+import AppLoader from "../../components/app-loader/app-loader";
 
 function Main(props) {
-  const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers } = props;
+  const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
   const [ activeOfferData, setActiveOfferData ] = useState({});
+  const [ isLoadPage, setIsLoadPage ] = useState(offers.length === 0);
+
+  useEffect(() => {
+    console.log('init use effect EMPTY')
+    if (offers.length === 0) {
+      setLoading(true);
+      loadOffersList();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (offers.length !== 0) {
+      setIsLoadPage(false);
+    }
+  }, [offers]);
 
   switch (sortValue) {
     case SortList.PRICE_LOW:
@@ -58,6 +75,12 @@ function Main(props) {
   function sortHandler(evt) {
     changeSortOffers(evt.target.innerText);
     toggleDropVisible(!visibleSortList);
+  }
+
+  if (isLoadPage || isDataLoading) {
+    return (
+      <AppLoader />
+    );
   }
 
   return (
@@ -113,12 +136,16 @@ Main.propTypes = {
   onChangeCity: PropTypes.func.isRequired,
   sortValue: PropTypes.string.isRequired,
   changeSortOffers: PropTypes.func.isRequired,
+  loadOffersList: PropTypes.func,
+  isDataLoading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   offers: state.offers,
   sortValue: state.sortValue,
+  isDataLoading: state.isDataLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -128,6 +155,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changeSortOffers(type) {
     dispatch(ActionCreator.changeSortOffers(type));
+  },
+  loadOffersList() {
+    dispatch(fetchOffersList());
+  },
+  setLoading(status) {
+    dispatch(ActionCreator.setLoadingPage(status))
   },
 });
 

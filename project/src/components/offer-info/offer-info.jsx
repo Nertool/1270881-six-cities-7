@@ -52,7 +52,7 @@ function OfferInfo({offerData}) {
 }
 
 OfferInfo.propTypes = {
-  offerData: PropTypes.arrayOf(OffersProp),
+  offerData: PropTypes.shape(OffersProp),
 };
 
 export default OfferInfo;

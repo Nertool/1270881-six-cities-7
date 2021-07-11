@@ -8,6 +8,7 @@ export const ActionType = {
   REQUEST_OFFER_DATA: 'offer/requestOfferData',
   LOAD_REVIEWS: 'offer/loadReviews',
   LOAD_NEAR_OFFERS: 'offer/loadNearOffers',
+  SET_LOADING_PAGE: 'app/setLoadingPage',
 };
 
 export const ActionCreator = {
@@ -46,5 +47,9 @@ export const ActionCreator = {
   loadNearOffers: (data) => ({
     type: ActionType.LOAD_NEAR_OFFERS,
     payload: data,
+  }),
+  setLoadingPage: (status) => ({
+    type: ActionType.SET_LOADING_PAGE,
+    payload: status,
   }),
 };

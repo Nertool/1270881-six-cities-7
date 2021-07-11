@@ -6,7 +6,6 @@ const initialState = {
   offers: [],
   sortValue: SortList.POPULAR,
   isDataLoading: true,
-  isDataOfferLoading: true,
   authorizationStatus: AuthStatus.UNKNOWN,
   userData: {},
   offerData: {},
@@ -48,6 +47,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offerData: action.payload,
+        isDataLoading: false,
       };
     case ActionType.LOAD_REVIEWS:
       return {
@@ -58,6 +58,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         nearData: action.payload,
+      };
+    case ActionType.SET_LOADING_PAGE:
+      return {
+        ...state,
+        isDataLoading: action.payload,
       };
     default:
       return state;

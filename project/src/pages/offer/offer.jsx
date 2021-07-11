@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import ReviewsProp from '../../review.prop';
@@ -13,16 +13,30 @@ import OfferInfo from '../../components/offer-info/offer-info';
 import OfferMap from '../../components/offer-map/offer-map';
 import {getNearData, getOfferData, getReviewsList} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
+import AppLoader from "../../components/app-loader/app-loader";
+import {ActionCreator} from "../../store/action";
 
 function Offer(props) {
-  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviews } = props;
+  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviews, isDataLoading, setLoading } = props;
   const { id } = useParams();
+  const [ isLoadPage, setIsLoadPage ] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     getOffer(id);
     getReviews(id);
     getNear(id);
   }, [id]);
+
+  useEffect(() => {
+    setIsLoadPage(Object.keys(offerData).length === 0);
+  }, [offerData]);
+
+  if (isLoadPage || isDataLoading) {
+    return (
+      <AppLoader />
+    );
+  }
 
   return (
     <div className="page">
@@ -64,16 +78,19 @@ Offer.propTypes = {
   nearData: PropTypes.arrayOf(OffersProp),
   isAuth: PropTypes.bool.isRequired,
   getOffer: PropTypes.func,
-  offerData: PropTypes.object.isRequired,
+  offerData: PropTypes.shape(OffersProp),
   getNear: PropTypes.func,
   reviewsData: PropTypes.arrayOf(ReviewsProp),
   getReviews: PropTypes.func,
+  isDataLoading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 
 const mapStateInProps = (state) => ({
   offerData: state.offerData,
   nearData: state.nearData,
   reviewsData: state.reviews,
+  isDataLoading: state.isDataLoading,
 });
 
 const mapDispatchInProps = (dispatch) => ({
@@ -85,6 +102,9 @@ const mapDispatchInProps = (dispatch) => ({
   },
   getNear(id) {
     dispatch(getNearData(id));
+  },
+  setLoading(status) {
+    dispatch(ActionCreator.setLoadingPage(status))
   },
 });
 
