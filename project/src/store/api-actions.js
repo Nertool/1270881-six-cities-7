@@ -1,6 +1,7 @@
 import {ActionCreator} from './action';
 import {APIRoute, AuthStatus} from '../const';
-import {formatJSON} from '../services/format-json';
+import {formatJSON} from '../utils/format-json';
+import history from '../utils/history';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => {
   api.get(APIRoute.OFFERS)
@@ -37,6 +38,10 @@ export const logout = () => (dispatch, _getState, api) => (
 export const getOfferData = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}`)
     .then(({data}) => dispatch(ActionCreator.requestOfferData(formatJSON(data))))
+    .catch(() => {
+      history.push('/not-found');
+      // history.go(0);
+    })
 );
 
 export const getReviewsList = (id) => (dispatch, _getState, api) => (
