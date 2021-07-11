@@ -1,69 +1,84 @@
-import React from 'react';
+import React, {useState} from 'react';
 import OfferReviewsFormRating from '../offer-reviews-form-rating/offer-reviews-form-rating';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {getReviewsList, postComment} from '../../store/api-actions';
 
-class OfferReviewsForm extends React.PureComponent {
-  constructor(props) {
-    super(props);
+function OfferReviewsForm ({ id, submitCommentHandler }) {
 
-    this.state = {
-      rating: 0,
-      comment: '',
-    };
+  const [ formData, setFormData ] = useState({
+    rating: 0,
+    comment: '',
+  });
 
-    this.submitHandler = this.submitHandler.bind(this);
-    this.changeControl = this.changeControl.bind(this);
-    this.changeRating = this.changeRating.bind(this);
-  }
+  const changeRating = (evt) => {
+    setFormData({
+      ...formData,
+      rating: +evt.target.value,
+    });
+  };
 
-  submitHandler(e) {
-    e.preventDefault();
-    // console.log(this.state)
-    this.clearForm();
-  }
+  const changeControl = (evt) => {
+    setFormData({
+      ...formData,
+      comment: evt.target.value,
+    });
+  };
 
-  changeControl(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  changeRating(e) {
-    this.setState({ [e.target.name]: +e.target.value });
-  }
-
-  clearForm() {
-    this.setState({
+  const clearForm = () => {
+    setFormData({
+      ...formData,
       rating: 0,
       comment: '',
     });
-  }
+  };
 
-  render() {
-    return (
-      <form className="reviews__form form" action="#" method="post" onSubmit={this.submitHandler}>
-        <label className="reviews__label form__label" htmlFor="review">Your review</label>
+  const isValidForm = ({rating, comment}) => rating && comment.length;
 
-        <OfferReviewsFormRating value={this.state.rating} changeRating={this.changeRating}/>
+  const submitHandler = (evt) => {
+    evt.preventDefault();
+    submitCommentHandler(id, formData);
+    clearForm();
+  };
 
-        <textarea
-          className="reviews__textarea form__textarea"
-          id="review"
-          name="comment"
-          placeholder="Tell how was your stay, what you like and what can be improved"
-          onChange={this.changeControl}
-          value={this.state.comment}
-        >
-        </textarea>
-        <div className="reviews__button-wrapper">
-          <p className="reviews__help">
-            To submit review please make sure to set <span className="reviews__star">rating</span> and
-            describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-          </p>
-          <button className="reviews__submit form__submit button" type="submit">Submit</button>
-        </div>
-        <div>&nbsp;</div>
-        <div>Временный блок с данными / рейтинг: {this.state.rating} / комментарий: {this.state.comment}</div>
-      </form>
-    );
-  }
+  return (
+    <form className="reviews__form form" action="#" method="post" onSubmit={submitHandler}>
+      <label className="reviews__label form__label" htmlFor="review">Your review</label>
+
+      <OfferReviewsFormRating value={formData.rating} changeRating={changeRating}/>
+
+      <textarea
+        className="reviews__textarea form__textarea"
+        id="review"
+        name="comment"
+        placeholder="Tell how was your stay, what you like and what can be improved"
+        onChange={changeControl}
+        value={formData.comment}
+      >
+      </textarea>
+      <div className="reviews__button-wrapper">
+        <p className="reviews__help">
+          To submit review please make sure to set <span className="reviews__star">rating</span> and
+          describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+        </p>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!isValidForm(formData)}>Submit</button>
+      </div>
+    </form>
+  );
 }
 
-export default OfferReviewsForm;
+OfferReviewsForm.propTypes = {
+  id: PropTypes.number.isRequired,
+  submitCommentHandler: PropTypes.func,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  submitCommentHandler(id, data) {
+    dispatch(postComment(id, data));
+    dispatch(getReviewsList(id));
+  },
+});
+
+export {OfferReviewsForm};
+export default connect(null, mapDispatchToProps)(OfferReviewsForm);
+

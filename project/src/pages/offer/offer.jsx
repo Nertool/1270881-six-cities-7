@@ -57,7 +57,7 @@ function Offer(props) {
 
               <section className="property__reviews reviews">
 
-                <OfferReviews reviews={reviewsData} />
+                <OfferReviews reviews={reviewsData} id={+id} />
 
               </section>
             </div>
