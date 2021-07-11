@@ -13,8 +13,8 @@ import OfferInfo from '../../components/offer-info/offer-info';
 import OfferMap from '../../components/offer-map/offer-map';
 import {getNearData, getOfferData, getReviewsList} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
-import AppLoader from "../../components/app-loader/app-loader";
-import {ActionCreator} from "../../store/action";
+import AppLoader from '../../components/app-loader/app-loader';
+import {ActionCreator} from '../../store/action';
 
 function Offer(props) {
   const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviews, isDataLoading, setLoading } = props;
@@ -104,7 +104,7 @@ const mapDispatchInProps = (dispatch) => ({
     dispatch(getNearData(id));
   },
   setLoading(status) {
-    dispatch(ActionCreator.setLoadingPage(status))
+    dispatch(ActionCreator.setLoadingPage(status));
   },
 });
 

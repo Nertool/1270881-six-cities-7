@@ -9,8 +9,8 @@ import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
 import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
-import {fetchOffersList} from "../../store/api-actions";
-import AppLoader from "../../components/app-loader/app-loader";
+import {fetchOffersList} from '../../store/api-actions';
+import AppLoader from '../../components/app-loader/app-loader';
 
 function Main(props) {
   const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
@@ -21,7 +21,6 @@ function Main(props) {
   const [ isLoadPage, setIsLoadPage ] = useState(offers.length === 0);
 
   useEffect(() => {
-    console.log('init use effect EMPTY')
     if (offers.length === 0) {
       setLoading(true);
       loadOffersList();
@@ -160,7 +159,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchOffersList());
   },
   setLoading(status) {
-    dispatch(ActionCreator.setLoadingPage(status))
+    dispatch(ActionCreator.setLoadingPage(status));
   },
 });
 

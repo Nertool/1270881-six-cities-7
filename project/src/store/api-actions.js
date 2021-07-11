@@ -4,7 +4,7 @@ import {formatJSON} from '../services/format-json';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => {
   api.get(APIRoute.OFFERS)
-    .then(({data}) => dispatch(ActionCreator.loadOffers(formatJSON(data))))
+    .then(({data}) => dispatch(ActionCreator.loadOffers(formatJSON(data))));
 };
 
 export const checkAuth = () => (dispatch, _getState, api) => (
