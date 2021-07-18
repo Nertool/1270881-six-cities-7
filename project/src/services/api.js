@@ -30,14 +30,6 @@ export const createAPI = (onUnauthorized) => {
       onUnauthorized();
     }
 
-    if (response.status === HttpCode.BAD_REQUEST) {
-      // alert(response.data.error);
-    }
-
-    if (response.status === HttpCode.NOT_FOUND) {
-      // history.push('/')
-    }
-
     throw err;
   };
 

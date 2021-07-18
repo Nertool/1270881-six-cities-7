@@ -38,10 +38,7 @@ export const logout = () => (dispatch, _getState, api) => (
 export const getOfferData = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}`)
     .then(({data}) => dispatch(ActionCreator.requestOfferData(formatJSON(data))))
-    .catch(() => {
-      history.push('/not-found');
-      // history.go(0);
-    })
+    .catch(() => history.push('/404'))
 );
 
 export const getReviewsList = (id) => (dispatch, _getState, api) => (

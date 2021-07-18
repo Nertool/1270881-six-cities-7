@@ -1,41 +1,33 @@
 import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
-import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import useMap from '../../hooks/useMap';
 
 function OfferMap({ near }) {
   const mapRef = useRef(null);
-  const cityLocation = near.length ? near[0].city.location : {};
-  const map = useMap(mapRef, cityLocation);
   const [isEnableScrollingMap, setIsEnableScrollingMap] = useState(true);
-  const defaultIcon = leaflet.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-  });
+  const cityLocation = near.length ? near[0].city.location : null;
+  const {map, layer} = useMap(mapRef, cityLocation);
 
   useEffect(() => {
-    if (map) {
-
+    if (near.length && map !== null) {
       if (isEnableScrollingMap) {
         map.scrollWheelZoom.disable();
         setIsEnableScrollingMap(false);
       }
-
-      near.map((item) => {
-        leaflet
-          .marker({
-            lat: item.location.latitude,
-            lng: item.location.longitude,
-          }, {
-            icon: defaultIcon,
-          })
-          .addTo(map);
+      layer.clearLayers();
+      const defaultIcon = leaflet.icon({
+        iconUrl: 'img/pin.svg',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+      });
+      near.forEach(({location}) => {
+        leaflet.marker([location.latitude, location.longitude], {icon: defaultIcon}).addTo(layer);
       });
     }
-  }, [map, near]);
+  }, [map, near, layer]);
 
   return (
     <div className='container'>

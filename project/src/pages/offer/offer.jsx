@@ -46,14 +46,14 @@ function Offer(props) {
       <main className="page__main page__main--property">
         <section className="property">
 
-          <OfferGallery images={offerData.images ?? []} />
+          <OfferGallery images={offerData.images} />
 
           <div className="property__container container">
             <div className="property__wrapper">
 
               <OfferInfo offerData={offerData} />
-              <OfferInside goods={offerData.goods ?? []} />
-              <OfferHost host={offerData.host ?? {}} />
+              <OfferInside goods={offerData.goods} />
+              <OfferHost host={offerData.host} />
 
               <section className="property__reviews reviews">
 
@@ -63,7 +63,7 @@ function Offer(props) {
             </div>
           </div>
 
-          { nearData.length && <OfferMap near={nearData}  /> }
+          <OfferMap near={nearData} />
 
         </section>
 

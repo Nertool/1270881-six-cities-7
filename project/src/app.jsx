@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {Router as BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import OffersProp from './offer.prop';
 import {connect} from 'react-redux';
 import Main from './pages/main/main';
@@ -10,12 +10,13 @@ import Offer from './pages/offer/offer';
 import NotFound from './pages/not-found/not-found';
 import {isAuth} from './const';
 import PrivateRoute from './components/private-route/private-route';
+import history from './utils/history';
 
 function App(props) {
   const { favorites, authStatus } = props;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <Switch>
         <Route exact path='/'>
           <Main isAuth={isAuth(authStatus)} />
