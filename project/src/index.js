@@ -5,7 +5,7 @@ import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {createAPI} from './services/api';
-import {reducer} from './store/reducer';
+import rootReducer from './store/root-reducer';
 import {checkAuth} from './store/api-actions';
 import {AuthStatus} from './const';
 import {setAuthStatus} from './store/action';
@@ -19,7 +19,7 @@ const api = createAPI(
 );
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
   ),

@@ -66,9 +66,9 @@ AppHeader.propTypes = {
   userEmail: PropTypes.string,
 };
 
-const mapStoreInProps = (store) => ({
-  authStatus: store.authorizationStatus,
-  userEmail: store.userData.email,
+const mapStateInProps = ({USER}) => ({
+  authStatus: USER.authorizationStatus,
+  userEmail: USER.userData.email,
 });
 
 const mapDispatchInProps = (dispatch) => ({
@@ -79,4 +79,4 @@ const mapDispatchInProps = (dispatch) => ({
 });
 
 export {AppHeader};
-export default connect(mapStoreInProps, mapDispatchInProps)(AppHeader);
+export default connect(mapStateInProps, mapDispatchInProps)(AppHeader);

@@ -1,13 +1,13 @@
 export const ActionType = {
-  CHANGE_CITY: 'main/changeCity',
-  CHANGE_SORT_OFFERS: 'main/changeSortOffers',
-  LOAD_OFFERS: 'data/loadOffers',
+  CHANGE_CITY: 'appAction/changeCity',
+  CHANGE_SORT_OFFERS: 'appAction/changeSortOffers',
+  SET_LOADING_PAGE: 'appAction/setLoadingPage',
   SET_AUTH_STATUS: 'user/setAuthStatus',
   CHANGE_USER_DATA: 'user/changeUserData',
-  REQUEST_OFFER_DATA: 'offer/requestOfferData',
-  LOAD_REVIEWS: 'offer/loadReviews',
-  LOAD_NEAR_OFFERS: 'offer/loadNearOffers',
-  SET_LOADING_PAGE: 'app/setLoadingPage',
+  LOAD_OFFERS: 'data/loadOffers',
+  REQUEST_OFFER_DATA: 'data/requestOfferData',
+  LOAD_REVIEWS: 'data/loadReviews',
+  LOAD_NEAR_OFFERS: 'data/loadNearOffers',
 };
 
 export const changeCity = (value) => ({

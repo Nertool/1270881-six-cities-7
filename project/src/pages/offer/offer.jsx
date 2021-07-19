@@ -83,14 +83,14 @@ Offer.propTypes = {
   setLoading: PropTypes.func,
 };
 
-const mapStateInProps = (state) => ({
-  offerData: state.offerData,
-  nearData: state.nearData,
-  reviewsData: state.reviews,
-  isDataLoading: state.isDataLoading,
+const mapStateToProps = ({DATA}) => ({
+  offerData: DATA.offerData,
+  nearData: DATA.nearData,
+  reviewsData: DATA.reviews,
+  isDataLoading: DATA.isDataLoading,
 });
 
-const mapDispatchInProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   getOffer(id) {
     dispatch(getOfferData(id));
   },
@@ -106,4 +106,4 @@ const mapDispatchInProps = (dispatch) => ({
 });
 
 export {Offer};
-export default connect(mapStateInProps, mapDispatchInProps)(Offer);
+export default connect(mapStateToProps, mapDispatchToProps)(Offer);

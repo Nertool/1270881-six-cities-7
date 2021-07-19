@@ -29,7 +29,7 @@ function Main(props) {
     }
   }, []);
 
-  function changeCity(evt, index) {
+  function changeCityHandler(evt, index) {
     evt.preventDefault();
     onChangeCity(index);
   }
@@ -48,7 +48,7 @@ function Main(props) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
 
-        <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCity } />
+        <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCityHandler } />
 
         <div className="cities">
           {
@@ -98,11 +98,11 @@ Main.propTypes = {
   setLoading: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
-  activeCity: state.activeCity,
-  offers: state.offers,
-  sortValue: state.sortValue,
-  isDataLoading: state.isDataLoading,
+const mapStateToProps = ({APP, DATA}) => ({
+  activeCity: APP.activeCity,
+  offers: DATA.offers,
+  sortValue: APP.sortValue,
+  isDataLoading: DATA.isDataLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

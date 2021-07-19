@@ -23,8 +23,8 @@ OfferReviews.propTypes = {
   authStatus: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  authStatus: state.authorizationStatus,
+const mapStateToProps = ({USER}) => ({
+  authStatus: USER.authorizationStatus,
 });
 
 export {OfferReviews};
