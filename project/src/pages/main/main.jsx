@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
-import {cities, SortList} from '../../const';
+import {cities} from '../../const';
 import AppHeader from '../../components/app-header/app-header';
 import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
@@ -12,13 +12,14 @@ import OffersList from '../../components/offers-list/offers-list';
 import {fetchOffersList} from '../../store/api-actions';
 import AppLoader from '../../components/app-loader/app-loader';
 import {useLoader} from '../../hooks/useLoader';
+import {useSorting} from '../../hooks/useSorting';
 
 function Main(props) {
   const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
   const isLoadPage = useLoader(offers);
+  const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, changeSortOffers);
 
-  const [ visibleSortList, setVisibleSortList ] = useState(false);
   const [ activeOfferData, setActiveOfferData ] = useState({});
 
   useEffect(() => {
@@ -28,30 +29,6 @@ function Main(props) {
     }
   }, []);
 
-  switch (sortValue) {
-    case SortList.PRICE_LOW:
-      offersList.sort((a, b) => a.price - b.price);
-      break;
-    case SortList.PRICE_HIGH:
-      offersList.sort((a, b) => b.price - a.price);
-      break;
-    case SortList.TOP_RATED:
-      offersList.sort((a, b) => b.rating - a.rating);
-      break;
-    default:
-      offersList.sort((a, b) => a.id - b.id);
-  }
-
-  function getSortListArray() {
-    const SortListArray = [];
-
-    for (const key in SortList) {
-      SortListArray.push(SortList[key]);
-    }
-
-    return SortListArray;
-  }
-
   function changeCity(evt, index) {
     evt.preventDefault();
     onChangeCity(index);
@@ -60,15 +37,6 @@ function Main(props) {
   function hoverHandler(evt, data) {
     evt.preventDefault();
     setActiveOfferData(data);
-  }
-
-  function toggleDropVisible() {
-    setVisibleSortList(!visibleSortList);
-  }
-
-  function sortHandler(evt) {
-    changeSortOffers(evt.target.innerText);
-    toggleDropVisible(!visibleSortList);
   }
 
   if (isLoadPage || isDataLoading) {
