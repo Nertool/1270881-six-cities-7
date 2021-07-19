@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {SortList} from '../const';
 
 export const useSorting = (sortValue, data, changeSortOffers) => {
