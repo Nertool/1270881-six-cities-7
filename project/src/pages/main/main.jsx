@@ -108,7 +108,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(index) {
     dispatch(ActionCreator.changeCity(index));
-    dispatch(ActionCreator.fillingListOffers());
   },
   changeSortOffers(type) {
     dispatch(ActionCreator.changeSortOffers(type));
