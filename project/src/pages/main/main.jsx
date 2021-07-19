@@ -11,14 +11,15 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
 import {fetchOffersList} from '../../store/api-actions';
 import AppLoader from '../../components/app-loader/app-loader';
+import {useLoader} from '../../hooks/useLoader';
 
 function Main(props) {
   const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
+  const isLoadPage = useLoader(offers);
 
   const [ visibleSortList, setVisibleSortList ] = useState(false);
   const [ activeOfferData, setActiveOfferData ] = useState({});
-  const [ isLoadPage, setIsLoadPage ] = useState(offers.length === 0);
 
   useEffect(() => {
     if (offers.length === 0) {
@@ -26,12 +27,6 @@ function Main(props) {
       loadOffersList();
     }
   }, []);
-
-  useEffect(() => {
-    if (offers.length !== 0) {
-      setIsLoadPage(false);
-    }
-  }, [offers]);
 
   switch (sortValue) {
     case SortList.PRICE_LOW:
