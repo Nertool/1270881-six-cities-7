@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
@@ -13,14 +13,14 @@ import {fetchOffersList} from '../../store/api-actions';
 import AppLoader from '../../components/app-loader/app-loader';
 import {useLoader} from '../../hooks/useLoader';
 import {useSorting} from '../../hooks/useSorting';
+import {useHoverCard} from '../../hooks/useHoverCard';
 
 function Main(props) {
   const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
   const isLoadPage = useLoader(offers);
   const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, changeSortOffers);
-
-  const [ activeOfferData, setActiveOfferData ] = useState({});
+  const [activeOfferData, hoverHandler] = useHoverCard();
 
   useEffect(() => {
     if (offers.length === 0) {
@@ -32,11 +32,6 @@ function Main(props) {
   function changeCity(evt, index) {
     evt.preventDefault();
     onChangeCity(index);
-  }
-
-  function hoverHandler(evt, data) {
-    evt.preventDefault();
-    setActiveOfferData(data);
   }
 
   if (isLoadPage || isDataLoading) {
