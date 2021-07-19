@@ -35,7 +35,7 @@ export const logout = () => (dispatch, _getState, api) => (
     })
 );
 
-export const getOfferData = (id) => (dispatch, _getState, api) => (
+export const getOfferInfo = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}`)
     .then(({data}) => dispatch(requestOfferData(formatJSON(data))))
     .catch(() => history.push('/404'))
@@ -46,7 +46,7 @@ export const getReviewsList = (id) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(loadReviews(formatJSON(data))))
 );
 
-export const getNearData = (id) => (dispatch, _getState, api) => (
+export const getNearInfo = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}/nearby`)
     .then(({data}) => dispatch(loadNearOffers(formatJSON(data))))
 );

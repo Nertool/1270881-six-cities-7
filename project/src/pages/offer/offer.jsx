@@ -11,21 +11,22 @@ import OfferInside from '../../components/offer-inside/offer-inside';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
 import OfferInfo from '../../components/offer-info/offer-info';
 import OfferMap from '../../components/offer-map/offer-map';
-import {getNearData, getOfferData, getReviewsList} from '../../store/api-actions';
+import {getNearInfo, getOfferInfo, getReviewsList} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
 import AppLoader from '../../components/app-loader/app-loader';
 import {setLoadingPage} from '../../store/action';
 import {useLoader} from '../../hooks/useLoader';
+import {getIsDataLoading, getNearData, getOfferData, getReviews} from '../../store/data/selectors';
 
 function Offer(props) {
-  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviews, isDataLoading, setLoading } = props;
+  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviewsInfo, isDataLoading, setLoading } = props;
   const { id } = useParams();
   const isLoadPage = useLoader(offerData);
 
   useEffect(() => {
     setLoading(true);
     getOffer(id);
-    getReviews(id);
+    getReviewsInfo(id);
     getNear(id);
   }, [id]);
 
@@ -78,27 +79,27 @@ Offer.propTypes = {
   offerData: PropTypes.shape(OffersProp),
   getNear: PropTypes.func,
   reviewsData: PropTypes.arrayOf(ReviewsProp),
-  getReviews: PropTypes.func,
+  getReviewsInfo: PropTypes.func,
   isDataLoading: PropTypes.bool,
   setLoading: PropTypes.func,
 };
 
-const mapStateToProps = ({DATA}) => ({
-  offerData: DATA.offerData,
-  nearData: DATA.nearData,
-  reviewsData: DATA.reviews,
-  isDataLoading: DATA.isDataLoading,
+const mapStateToProps = (state) => ({
+  offerData: getOfferData(state),
+  nearData: getNearData(state),
+  reviewsData: getReviews(state),
+  isDataLoading: getIsDataLoading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getOffer(id) {
-    dispatch(getOfferData(id));
+    dispatch(getOfferInfo(id));
   },
-  getReviews(id) {
+  getReviewsInfo(id) {
     dispatch(getReviewsList(id));
   },
   getNear(id) {
-    dispatch(getNearData(id));
+    dispatch(getNearInfo(id));
   },
   setLoading(status) {
     dispatch(setLoadingPage(status));

@@ -11,6 +11,8 @@ import NotFound from './pages/not-found/not-found';
 import {isAuth} from './const';
 import PrivateRoute from './components/private-route/private-route';
 import history from './utils/history';
+import {getIsDataLoading} from './store/data/selectors';
+import {getAuthorizationStatus} from './store/user/selectors';
 
 function App(props) {
   const { favorites, authStatus } = props;
@@ -41,9 +43,9 @@ App.propTypes = {
   authStatus: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({USER, DATA}) => ({
-  isDataLoading: DATA.isDataLoading,
-  authStatus: USER.authorizationStatus,
+const mapStateToProps = (state) => ({
+  isDataLoading: getIsDataLoading(state),
+  authStatus: getAuthorizationStatus(state),
 });
 
 export {App};

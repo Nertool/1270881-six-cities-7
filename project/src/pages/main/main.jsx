@@ -14,6 +14,8 @@ import AppLoader from '../../components/app-loader/app-loader';
 import {useLoader} from '../../hooks/useLoader';
 import {useSorting} from '../../hooks/useSorting';
 import {useHoverCard} from '../../hooks/useHoverCard';
+import {getActiveCity, getSortValue} from '../../store/app-action/selectors';
+import {getIsDataLoading, getOffers} from '../../store/data/selectors';
 
 function Main(props) {
   const { offers, isAuth, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
@@ -98,11 +100,11 @@ Main.propTypes = {
   setLoading: PropTypes.func,
 };
 
-const mapStateToProps = ({APP, DATA}) => ({
-  activeCity: APP.activeCity,
-  offers: DATA.offers,
-  sortValue: APP.sortValue,
-  isDataLoading: DATA.isDataLoading,
+const mapStateToProps = (state) => ({
+  activeCity: getActiveCity(state),
+  offers: getOffers(state),
+  sortValue: getSortValue(state),
+  isDataLoading: getIsDataLoading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
