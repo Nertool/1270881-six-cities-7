@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import ReviewsProp from '../../review.prop';
@@ -15,11 +15,12 @@ import {getNearData, getOfferData, getReviewsList} from '../../store/api-actions
 import {useParams} from 'react-router-dom';
 import AppLoader from '../../components/app-loader/app-loader';
 import {ActionCreator} from '../../store/action';
+import {useLoader} from '../../hooks/useLoader';
 
 function Offer(props) {
   const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviews, isDataLoading, setLoading } = props;
   const { id } = useParams();
-  const [ isLoadPage, setIsLoadPage ] = useState(true);
+  const isLoadPage = useLoader(offerData);
 
   useEffect(() => {
     setLoading(true);
@@ -27,10 +28,6 @@ function Offer(props) {
     getReviews(id);
     getNear(id);
   }, [id]);
-
-  useEffect(() => {
-    setIsLoadPage(Object.keys(offerData).length === 0);
-  }, [offerData]);
 
   if (isLoadPage || isDataLoading) {
     return (
