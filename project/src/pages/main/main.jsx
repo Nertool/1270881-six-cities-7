@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {changeCity, changeSortOffers, setLoadingPage} from '../../store/action';
 import {cities} from '../../const';
 import AppHeader from '../../components/app-header/app-header';
 import MainLocations from '../../components/main-locations/main-locations';
@@ -16,10 +16,10 @@ import {useSorting} from '../../hooks/useSorting';
 import {useHoverCard} from '../../hooks/useHoverCard';
 
 function Main(props) {
-  const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
+  const { offers, isAuth, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
   const isLoadPage = useLoader(offers);
-  const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, changeSortOffers);
+  const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, onChangeSortOffers);
   const [activeOfferData, hoverHandler] = useHoverCard();
 
   useEffect(() => {
@@ -92,7 +92,7 @@ Main.propTypes = {
   activeCity: PropTypes.number.isRequired,
   onChangeCity: PropTypes.func.isRequired,
   sortValue: PropTypes.string.isRequired,
-  changeSortOffers: PropTypes.func.isRequired,
+  onChangeSortOffers: PropTypes.func.isRequired,
   loadOffersList: PropTypes.func,
   isDataLoading: PropTypes.bool,
   setLoading: PropTypes.func,
@@ -107,16 +107,16 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(index) {
-    dispatch(ActionCreator.changeCity(index));
+    dispatch(changeCity(index));
   },
-  changeSortOffers(type) {
-    dispatch(ActionCreator.changeSortOffers(type));
+  onChangeSortOffers(type) {
+    dispatch(changeSortOffers(type));
   },
   loadOffersList() {
     dispatch(fetchOffersList());
   },
   setLoading(status) {
-    dispatch(ActionCreator.setLoadingPage(status));
+    dispatch(setLoadingPage(status));
   },
 });
 

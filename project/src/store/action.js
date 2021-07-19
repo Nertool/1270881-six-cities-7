@@ -10,41 +10,47 @@ export const ActionType = {
   SET_LOADING_PAGE: 'app/setLoadingPage',
 };
 
-export const ActionCreator = {
-  changeCity: (value) => ({
-    type: ActionType.CHANGE_CITY,
-    payload: value,
-  }),
-  changeSortOffers: (type) => ({
-    type: ActionType.CHANGE_SORT_OFFERS,
-    payload: type,
-  }),
-  loadOffers: (offers) => ({
-    type: ActionType.LOAD_OFFERS,
-    payload: offers,
-  }),
-  setAuthStatus: (status) => ({
-    type: ActionType.SET_AUTH_STATUS,
-    payload: status,
-  }),
-  changeUserData: (data) => ({
-    type: ActionType.CHANGE_USER_DATA,
-    payload: data,
-  }),
-  requestOfferData: (data) => ({
-    type: ActionType.REQUEST_OFFER_DATA,
-    payload: data,
-  }),
-  loadReviews: (data) => ({
-    type: ActionType.LOAD_REVIEWS,
-    payload: data,
-  }),
-  loadNearOffers: (data) => ({
-    type: ActionType.LOAD_NEAR_OFFERS,
-    payload: data,
-  }),
-  setLoadingPage: (status) => ({
-    type: ActionType.SET_LOADING_PAGE,
-    payload: status,
-  }),
-};
+export const changeCity = (value) => ({
+  type: ActionType.CHANGE_CITY,
+  payload: value,
+});
+
+export const changeSortOffers = (type) => ({
+  type: ActionType.CHANGE_SORT_OFFERS,
+  payload: type,
+});
+
+export const loadOffers = (offers) => ({
+  type: ActionType.LOAD_OFFERS,
+  payload: offers,
+});
+
+export const setAuthStatus = (status) => ({
+  type: ActionType.SET_AUTH_STATUS,
+  payload: status,
+});
+
+export const changeUserData = (data) => ({
+  type: ActionType.CHANGE_USER_DATA,
+  payload: data,
+});
+
+export const requestOfferData = (data) => ({
+  type: ActionType.REQUEST_OFFER_DATA,
+  payload: data,
+});
+
+export const loadReviews = (data) => ({
+  type: ActionType.LOAD_REVIEWS,
+  payload: data,
+});
+
+export const loadNearOffers = (data) => ({
+  type: ActionType.LOAD_NEAR_OFFERS,
+  payload: data,
+});
+
+export const setLoadingPage = (status) => ({
+  type: ActionType.SET_LOADING_PAGE,
+  payload: status,
+});

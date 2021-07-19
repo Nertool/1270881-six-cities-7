@@ -14,7 +14,7 @@ import OfferMap from '../../components/offer-map/offer-map';
 import {getNearData, getOfferData, getReviewsList} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
 import AppLoader from '../../components/app-loader/app-loader';
-import {ActionCreator} from '../../store/action';
+import {setLoadingPage} from '../../store/action';
 import {useLoader} from '../../hooks/useLoader';
 
 function Offer(props) {
@@ -101,7 +101,7 @@ const mapDispatchInProps = (dispatch) => ({
     dispatch(getNearData(id));
   },
   setLoading(status) {
-    dispatch(ActionCreator.setLoadingPage(status));
+    dispatch(setLoadingPage(status));
   },
 });
 

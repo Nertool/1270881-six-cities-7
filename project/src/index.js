@@ -8,14 +8,14 @@ import {createAPI} from './services/api';
 import {reducer} from './store/reducer';
 import {checkAuth} from './store/api-actions';
 import {AuthStatus} from './const';
-import {ActionCreator} from './store/action';
+import {setAuthStatus} from './store/action';
 
 import App from './app';
 
 import favorites from './mocks/favorites';
 
 const api = createAPI(
-  () => store.dispatch(ActionCreator.setAuthStatus(AuthStatus.NOT_AUTH)),
+  () => store.dispatch(setAuthStatus(AuthStatus.NOT_AUTH)),
 );
 
 const store = createStore(
