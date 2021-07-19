@@ -13,6 +13,7 @@ export const APIRoute = {
   OFFERS: '/hotels',
   LOGIN: '/login',
   LOGOUT: '/logout',
+  REVIEWS: '/comments',
 };
 
 export const AuthStatus = {
@@ -20,3 +21,5 @@ export const AuthStatus = {
   NOT_AUTH: 'notAuth',
   UNKNOWN: 'unknown',
 };
+
+export const isAuth = (status) => status === AuthStatus.AUTH;

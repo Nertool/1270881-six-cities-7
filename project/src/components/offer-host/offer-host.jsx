@@ -1,19 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function OfferHost() {
+function OfferHost({ host }) {
   return (
     <div className="property__host">
       <h2 className="property__host-title">Meet the host</h2>
       <div className="property__host-user user">
         <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-          <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+          <img className="property__avatar user__avatar" src={ host.avatarUrl } width="74" height="74" alt="Host avatar" />
         </div>
         <span className="property__user-name">
-          Angelina
+          { host.name }
         </span>
-        <span className="property__user-status">
-          Pro
-        </span>
+        {
+          host.isPro &&
+          <span className="property__user-status">
+            Pro
+          </span>
+        }
       </div>
       <div className="property__description">
         <p className="property__text">
@@ -28,5 +32,14 @@ function OfferHost() {
     </div>
   );
 }
+
+OfferHost.propTypes = {
+  host: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    isPro: PropTypes.bool.isRequired,
+    avatarUrl: PropTypes.string.isRequired,
+  }),
+};
 
 export default OfferHost;

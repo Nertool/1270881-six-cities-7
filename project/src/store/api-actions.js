@@ -1,11 +1,12 @@
 import {ActionCreator} from './action';
 import {APIRoute, AuthStatus} from '../const';
-import {formatJSON} from '../services/format-json';
+import {formatJSON} from '../utils/format-json';
+import history from '../utils/history';
 
-export const fetchOffersList = () => (dispatch, _getState, api) => (
+export const fetchOffersList = () => (dispatch, _getState, api) => {
   api.get(APIRoute.OFFERS)
-    .then(({data}) => dispatch(ActionCreator.loadOffers(formatJSON(data))))
-);
+    .then(({data}) => dispatch(ActionCreator.loadOffers(formatJSON(data))));
+};
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
@@ -32,4 +33,24 @@ export const logout = () => (dispatch, _getState, api) => (
       dispatch(ActionCreator.setAuthStatus(AuthStatus.NOT_AUTH));
       dispatch(ActionCreator.changeUserData({}));
     })
+);
+
+export const getOfferData = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.OFFERS}/${id}`)
+    .then(({data}) => dispatch(ActionCreator.requestOfferData(formatJSON(data))))
+    .catch(() => history.push('/404'))
+);
+
+export const getReviewsList = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.REVIEWS}/${id}`)
+    .then(({data}) => dispatch(ActionCreator.loadReviews(formatJSON(data))))
+);
+
+export const getNearData = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.OFFERS}/${id}/nearby`)
+    .then(({data}) => dispatch(ActionCreator.loadNearOffers(formatJSON(data))))
+);
+
+export const postComment = (id, formData) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.REVIEWS}/${id}`, formData)
 );

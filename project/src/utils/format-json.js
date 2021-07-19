@@ -13,4 +13,4 @@ function entriesObj(val) {
   }
 }
 
-export const formatJSON = (data) => data.map((item) => entriesObj(item));
+export const formatJSON = (data) => entriesObj(data);

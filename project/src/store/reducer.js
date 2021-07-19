@@ -8,6 +8,9 @@ const initialState = {
   isDataLoading: true,
   authorizationStatus: AuthStatus.UNKNOWN,
   userData: {},
+  offerData: {},
+  reviews: [],
+  nearData: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +42,27 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userData: action.payload,
+      };
+    case ActionType.REQUEST_OFFER_DATA:
+      return {
+        ...state,
+        offerData: action.payload,
+        isDataLoading: false,
+      };
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    case ActionType.LOAD_NEAR_OFFERS:
+      return {
+        ...state,
+        nearData: action.payload,
+      };
+    case ActionType.SET_LOADING_PAGE:
+      return {
+        ...state,
+        isDataLoading: action.payload,
       };
     default:
       return state;

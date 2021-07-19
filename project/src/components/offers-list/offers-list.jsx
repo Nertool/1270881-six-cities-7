@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import OffersItem from '../offers-item/offers-item';
+import {connect} from 'react-redux';
 
 function OffersList(props) {
-
   const { data, isAuth, className } = props;
 
   return (
@@ -20,4 +20,5 @@ OffersList.propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-export default OffersList;
+export {OffersList};
+export default connect(null, null)(OffersList);
