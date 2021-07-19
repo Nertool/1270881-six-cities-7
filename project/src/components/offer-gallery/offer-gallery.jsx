@@ -8,13 +8,16 @@ function OfferGallery({images}) {
     <div className="property__gallery-container container">
       <div className="property__gallery">
 
-        { imagesList.map((imgSrc) => {
-          return (
-            <div key={imgSrc} className="property__image-wrapper">
-              <img className="property__image" src={ imgSrc } alt="Studio"/>
-            </div>
-          );
-        })}
+        {
+          imagesList.map((imgSrc, index) => {
+            const keyVal = `${index}-${imgSrc}`;
+            return (
+              <div key={keyVal} className="property__image-wrapper">
+                <img className="property__image" src={ imgSrc } alt="Studio"/>
+              </div>
+            );
+          })
+        }
 
       </div>
     </div>
