@@ -65,7 +65,7 @@ function AppHeader(props) {
 AppHeader.propTypes = {
   authStatus: PropTypes.string.isRequired,
   userLogout: PropTypes.func.isRequired,
-  userData: PropTypes.string,
+  userData: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
