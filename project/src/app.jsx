@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Router as BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import OffersProp from './offer.prop';
 import {connect} from 'react-redux';
 import Main from './pages/main/main';
 import Login from './pages/login/login';
@@ -15,7 +14,7 @@ import {getIsDataLoading} from './store/data/selectors';
 import {getAuthorizationStatus} from './store/user/selectors';
 
 function App(props) {
-  const { favorites, authStatus } = props;
+  const { authStatus } = props;
 
   return (
     <BrowserRouter history={history}>
@@ -26,7 +25,7 @@ function App(props) {
         <Route exact path='/login'>
           { isAuth(authStatus) ? <Redirect to="/" /> : <Login /> }
         </Route>
-        <PrivateRoute exact path='/favorites' render={() => <Favorites favorites={favorites} />} />
+        <PrivateRoute exact path='/favorites' render={() => <Favorites />} />
         <Route exact path='/offer/:id'>
           <Offer isAuth={isAuth(authStatus)} />
         </Route>
@@ -39,7 +38,6 @@ function App(props) {
 }
 
 App.propTypes = {
-  favorites: PropTypes.arrayOf(OffersProp),
   authStatus: PropTypes.string.isRequired,
 };
 

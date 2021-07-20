@@ -1,31 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-
 import AppHeader from '../../components/app-header/app-header';
 import AppFooter from '../../components/app-footer/app-footer';
 import FavoriteList from '../../components/favorites-list/favorites-list';
 import OffersProp from '../../offer.prop';
+import {connect} from 'react-redux';
+import {getFavorites} from '../../store/api-actions';
+import {getFavoritesData, getIsDataLoading} from '../../store/data/selectors';
+import {useLoader} from '../../hooks/useLoader';
+import AppLoader from "../../components/app-loader/app-loader";
+import {setLoadingPage} from "../../store/action";
 
 function Favorites(props) {
-  const { favorites } = props;
+  const { favorites, getFavoritesList, isDataLoading, setLoading } = props;
+  const isLoadPage = useLoader(favorites);
+  const [favoriteData, setFavoriteData] = useState([]);
 
-  const cities = [];
-  const favoriteData = [];
+  useEffect(() => {
+    setLoading(true);
+    getFavoritesList()
+  }, []);
 
-  favorites.map((item) => {
-    if (!cities.includes(item.city.name)) {
-      cities.push(item.city.name);
-      favoriteData.push({
-        city: item.city.name,
-        data: [item],
+  useEffect(() => {
+    if (favorites.length) {
+      const cities = [];
+      const favoriteList = [];
+
+      favorites.map((item) => {
+        if (!cities.includes(item.city.name)) {
+          cities.push(item.city.name);
+          favoriteList.push({
+            city: item.city.name,
+            data: [item],
+          });
+        } else {
+          const index = cities.indexOf(item.city.name);
+          const data = favoriteList[index].data;
+          data.push(item);
+        }
+        return item;
       });
-    } else {
-      const index = cities.indexOf(item.city.name);
-      const data = favoriteData[index].data;
-      data.push(item);
+
+      setFavoriteData(favoriteList);
     }
-    return item;
-  });
+  }, [favorites]);
+
+  if (isLoadPage || isDataLoading) {
+    return (
+      <AppLoader />
+    );
+  }
 
   return (
     <div className="page">
@@ -53,6 +77,24 @@ function Favorites(props) {
 
 Favorites.propTypes = {
   favorites: PropTypes.arrayOf(OffersProp),
+  getFavoritesList: PropTypes.func,
+  isDataLoading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  favorites: getFavoritesData(state),
+  isDataLoading: getIsDataLoading(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getFavoritesList() {
+    dispatch(getFavorites())
+  },
+  setLoading(status) {
+    dispatch(setLoadingPage(status));
+  },
+});
+
+export {Favorites};
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites)

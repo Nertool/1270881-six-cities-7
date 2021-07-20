@@ -12,7 +12,8 @@ function PrivateRoute (props) {
       path={path}
       exact={exact}
       render={(routeProps) => (
-        authStatus === AuthStatus.AUTH ? render(routeProps) : <Redirect to={'/login'} />
+        // authStatus === AuthStatus.AUTH ? render(routeProps) : <Redirect to={'/login'} />
+        render(routeProps)
       )}
     />
   );

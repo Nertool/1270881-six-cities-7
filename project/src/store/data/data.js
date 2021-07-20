@@ -6,6 +6,7 @@ const initialState = {
   offerData: {},
   reviews: [],
   nearData: [],
+  favorites: [],
 };
 
 const data = (state = initialState, action) => {
@@ -36,6 +37,12 @@ const data = (state = initialState, action) => {
       return {
         ...state,
         nearData: action.payload,
+      };
+    case ActionType.SET_FAVORITE_DATA:
+      return {
+        ...state,
+        favorites: action.payload,
+        isDataLoading: false,
       };
     default:
       return state;

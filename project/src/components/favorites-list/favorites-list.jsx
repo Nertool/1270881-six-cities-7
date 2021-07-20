@@ -30,6 +30,7 @@ FavoriteList.propTypes = {
     city: PropTypes.string,
     data: PropTypes.arrayOf(
       PropTypes.shape(OffersProp),
-    )})};
+    )})
+};
 
 export default FavoriteList;

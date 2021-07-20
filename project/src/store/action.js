@@ -8,7 +8,7 @@ export const ActionType = {
   REQUEST_OFFER_DATA: 'data/requestOfferData',
   LOAD_REVIEWS: 'data/loadReviews',
   LOAD_NEAR_OFFERS: 'data/loadNearOffers',
-  SET_FAVORITE_OFFER: 'data/setFavoriteOffer',
+  SET_FAVORITE_DATA: 'data/setFavoriteData',
 };
 
 export const changeCity = (value) => ({
@@ -56,7 +56,7 @@ export const setLoadingPage = (status) => ({
   payload: status,
 });
 
-export const setFavoriteOffer = (obj) => ({
-  type: ActionType.SET_FAVORITE_OFFER,
-  payload: obj,
+export const setFavoriteData = (data) => ({
+  type: ActionType.SET_FAVORITE_DATA,
+  payload: data,
 });

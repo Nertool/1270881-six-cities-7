@@ -4,7 +4,7 @@ import {
   changeUserData,
   requestOfferData,
   loadReviews,
-  loadNearOffers
+  loadNearOffers, setFavoriteData
 } from './action';
 import {APIRoute, AuthStatus} from '../const';
 import {formatJSON} from '../utils/format-json';
@@ -64,4 +64,9 @@ export const postComment = (id, formData) => (dispatch, _getState, api) => (
 
 export const setFavoriteStatus = (id, status) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
+);
+
+export const getFavorites = () => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.FAVORITE}`)
+    .then(({data}) => dispatch(setFavoriteData(formatJSON(data))))
 );
