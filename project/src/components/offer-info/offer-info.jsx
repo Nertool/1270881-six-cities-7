@@ -2,8 +2,15 @@ import React from 'react';
 import useFormatRating from '../../hooks/useFormatRating';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
+import {connect} from 'react-redux';
+import {getAuthorizationStatus} from '../../store/user/selectors';
+import {setFavoriteStatus} from '../../store/api-actions';
+import {useFavorite} from '../../hooks/useFavorite';
 
-function OfferInfo({offerData}) {
+function OfferInfo(props) {
+  const {offerData, authStatus, setFavorite} = props;
+  const [isFavorite, toggleFavorite] = useFavorite(offerData, authStatus, setFavorite);
+
   return (
     <>
       {
@@ -16,7 +23,7 @@ function OfferInfo({offerData}) {
         <h1 className="property__name">
           { offerData.title }
         </h1>
-        <button className={`property__bookmark-button button ${offerData.isFavorite ? 'property__bookmark-button--active' : ''}`} type="button">
+        <button className={`property__bookmark-button button ${isFavorite ? 'property__bookmark-button--active' : ''}`} type="button" onClick={toggleFavorite}>
           <svg className="property__bookmark-icon" width="31" height="33">
             <use xlinkHref="#icon-bookmark">
             </use>
@@ -53,6 +60,19 @@ function OfferInfo({offerData}) {
 
 OfferInfo.propTypes = {
   offerData: PropTypes.shape(OffersProp),
+  setFavorite: PropTypes.func,
+  authStatus: PropTypes.string.isRequired,
 };
 
-export default OfferInfo;
+const mapStateToProps = (state) => ({
+  authStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setFavorite(id, value) {
+    dispatch(setFavoriteStatus(id, value));
+  },
+});
+
+export {OfferInfo};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferInfo);

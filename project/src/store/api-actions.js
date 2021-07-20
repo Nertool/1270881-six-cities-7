@@ -1,4 +1,11 @@
-import {loadOffers, setAuthStatus, changeUserData, requestOfferData, loadReviews, loadNearOffers} from './action';
+import {
+  loadOffers,
+  setAuthStatus,
+  changeUserData,
+  requestOfferData,
+  loadReviews,
+  loadNearOffers, setFavoriteData
+} from './action';
 import {APIRoute, AuthStatus} from '../const';
 import {formatJSON} from '../utils/format-json';
 import history from '../utils/history';
@@ -53,4 +60,13 @@ export const getNearInfo = (id) => (dispatch, _getState, api) => (
 
 export const postComment = (id, formData) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, formData)
+);
+
+export const setFavoriteStatus = (id, status) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
+);
+
+export const getFavorites = () => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.FAVORITE}`)
+    .then(({data}) => dispatch(setFavoriteData(formatJSON(data))))
 );

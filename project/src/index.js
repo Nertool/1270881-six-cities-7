@@ -9,10 +9,7 @@ import rootReducer from './store/root-reducer';
 import {checkAuth} from './store/api-actions';
 import {AuthStatus} from './const';
 import {setAuthStatus} from './store/action';
-
 import App from './app';
-
-import favorites from './mocks/favorites';
 
 const api = createAPI(
   () => store.dispatch(setAuthStatus(AuthStatus.NOT_AUTH)),
@@ -29,6 +26,6 @@ store.dispatch(checkAuth());
 
 ReactDOM.render(
   <Provider store={store}>
-    <App favorites={favorites} />
+    <App />
   </Provider>,
   document.getElementById('root'));

@@ -1,23 +1,17 @@
-import React, {useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import OfferProp from '../../offer.prop';
 import useFormatRating from '../../hooks/useFormatRating';
 import MainCardPremium from '../main-card-premium/main-card-premium';
+import {getAuthorizationStatus} from '../../store/user/selectors';
+import {connect} from 'react-redux';
+import {setFavoriteStatus} from '../../store/api-actions';
+import {useFavorite} from '../../hooks/useFavorite';
 
 function OffersItem(props) {
-  const {offer, hoverHandler = () => {}, isAuth} = props;
-  const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
-  const history = useHistory();
-
-  function toggleFavorite(evt) {
-    evt.preventDefault();
-    if (isAuth) {
-      setIsFavorite(!isFavorite);
-    } else {
-      history.push('/login');
-    }
-  }
+  const {offer, hoverHandler = () => {}, authStatus, setFavorite} = props;
+  const [isFavorite, toggleFavorite] = useFavorite(offer, authStatus, setFavorite);
 
   return (
     <article className="cities__place-card place-card" onMouseEnter={(e) => { hoverHandler(e, offer.location); }}>
@@ -62,7 +56,19 @@ function OffersItem(props) {
 OffersItem.propTypes = {
   offer: OfferProp,
   hoverHandler: PropTypes.func,
-  isAuth: PropTypes.bool.isRequired,
+  setFavorite: PropTypes.func,
+  authStatus: PropTypes.string.isRequired,
 };
 
-export default OffersItem;
+const mapStateToProps = (state) => ({
+  authStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setFavorite(id, value) {
+    dispatch(setFavoriteStatus(id, value));
+  },
+});
+
+export {OffersItem};
+export default connect(mapStateToProps, mapDispatchToProps)(OffersItem);
