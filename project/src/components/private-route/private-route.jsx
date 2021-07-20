@@ -4,16 +4,23 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {AuthStatus} from '../../const';
 import {getAuthorizationStatus} from '../../store/user/selectors';
+import AppLoader from '../app-loader/app-loader';
 
 function PrivateRoute (props) {
   const { authStatus, path, exact, render } = props;
+
+  if (authStatus === AuthStatus.UNKNOWN) {
+    return (
+      <AppLoader />
+    );
+  }
+
   return (
     <Route
       path={path}
       exact={exact}
       render={(routeProps) => (
-        // authStatus === AuthStatus.AUTH ? render(routeProps) : <Redirect to={'/login'} />
-        render(routeProps)
+        authStatus === AuthStatus.AUTH ? render(routeProps) : <Redirect to={'/login'} />
       )}
     />
   );

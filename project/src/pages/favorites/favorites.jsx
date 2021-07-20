@@ -8,8 +8,8 @@ import {connect} from 'react-redux';
 import {getFavorites} from '../../store/api-actions';
 import {getFavoritesData, getIsDataLoading} from '../../store/data/selectors';
 import {useLoader} from '../../hooks/useLoader';
-import AppLoader from "../../components/app-loader/app-loader";
-import {setLoadingPage} from "../../store/action";
+import AppLoader from '../../components/app-loader/app-loader';
+import {setLoadingPage} from '../../store/action';
 
 function Favorites(props) {
   const { favorites, getFavoritesList, isDataLoading, setLoading } = props;
@@ -18,7 +18,7 @@ function Favorites(props) {
 
   useEffect(() => {
     setLoading(true);
-    getFavoritesList()
+    getFavoritesList();
   }, []);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getFavoritesList() {
-    dispatch(getFavorites())
+    dispatch(getFavorites());
   },
   setLoading(status) {
     dispatch(setLoadingPage(status));
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {Favorites};
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites)
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

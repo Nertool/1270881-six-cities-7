@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import FavoritesCard from '../favorites-card/favorites-card';
 import OffersProp from '../../offer.prop';
 
@@ -30,7 +29,7 @@ FavoriteList.propTypes = {
     city: PropTypes.string,
     data: PropTypes.arrayOf(
       PropTypes.shape(OffersProp),
-    )})
+    )}),
 };
 
 export default FavoriteList;
