@@ -8,6 +8,7 @@ export const ActionType = {
   REQUEST_OFFER_DATA: 'data/requestOfferData',
   LOAD_REVIEWS: 'data/loadReviews',
   LOAD_NEAR_OFFERS: 'data/loadNearOffers',
+  SET_FAVORITE_OFFER: 'data/setFavoriteOffer',
 };
 
 export const changeCity = (value) => ({
@@ -53,4 +54,9 @@ export const loadNearOffers = (data) => ({
 export const setLoadingPage = (status) => ({
   type: ActionType.SET_LOADING_PAGE,
   payload: status,
+});
+
+export const setFavoriteOffer = (obj) => ({
+  type: ActionType.SET_FAVORITE_OFFER,
+  payload: obj,
 });

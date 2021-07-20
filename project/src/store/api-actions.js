@@ -1,4 +1,11 @@
-import {loadOffers, setAuthStatus, changeUserData, requestOfferData, loadReviews, loadNearOffers} from './action';
+import {
+  loadOffers,
+  setAuthStatus,
+  changeUserData,
+  requestOfferData,
+  loadReviews,
+  loadNearOffers
+} from './action';
 import {APIRoute, AuthStatus} from '../const';
 import {formatJSON} from '../utils/format-json';
 import history from '../utils/history';

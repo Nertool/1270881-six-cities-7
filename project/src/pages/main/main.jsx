@@ -25,10 +25,8 @@ function Main(props) {
   const [activeOfferData, hoverHandler] = useHoverCard();
 
   useEffect(() => {
-    if (offers.length === 0) {
-      setLoading(true);
-      loadOffersList();
-    }
+    setLoading(true);
+    loadOffersList();
   }, []);
 
   function changeCityHandler(evt, index) {

@@ -19,9 +19,9 @@ function OffersItem(props) {
     evt.preventDefault();
 
     const valueFavorite = isFavorite ? 0 : 1;
-    setFavorite(offer.id, valueFavorite);
 
     if (isAuthStatus) {
+      setFavorite(offer.id, valueFavorite);
       setIsFavorite(!isFavorite);
     } else {
       history.push('/login');
