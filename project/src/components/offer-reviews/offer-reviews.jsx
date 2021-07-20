@@ -5,6 +5,7 @@ import OfferReviewsList from '../offer-reviews-list/offer-reviews-list';
 import ReviewsProp from '../../review.prop';
 import {isAuth} from '../../const';
 import {connect} from 'react-redux';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 function OfferReviews({ reviews, id, authStatus }) {
   return (
@@ -24,7 +25,7 @@ OfferReviews.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authStatus: state.authorizationStatus,
+  authStatus: getAuthorizationStatus(state),
 });
 
 export {OfferReviews};

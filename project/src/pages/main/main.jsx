@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
-import {cities, SortList} from '../../const';
+import {changeCity, changeSortOffers, setLoadingPage} from '../../store/action';
+import {cities} from '../../const';
 import AppHeader from '../../components/app-header/app-header';
 import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
@@ -11,14 +11,18 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import OffersList from '../../components/offers-list/offers-list';
 import {fetchOffersList} from '../../store/api-actions';
 import AppLoader from '../../components/app-loader/app-loader';
+import {useLoader} from '../../hooks/useLoader';
+import {useSorting} from '../../hooks/useSorting';
+import {useHoverCard} from '../../hooks/useHoverCard';
+import {getActiveCity, getSortValue} from '../../store/app-action/selectors';
+import {getIsDataLoading, getOffers} from '../../store/data/selectors';
 
 function Main(props) {
-  const { offers, isAuth, activeCity, onChangeCity, sortValue, changeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
+  const { offers, isAuth, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
-
-  const [ visibleSortList, setVisibleSortList ] = useState(false);
-  const [ activeOfferData, setActiveOfferData ] = useState({});
-  const [ isLoadPage, setIsLoadPage ] = useState(offers.length === 0);
+  const isLoadPage = useLoader(offers);
+  const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, onChangeSortOffers);
+  const [activeOfferData, hoverHandler] = useHoverCard();
 
   useEffect(() => {
     if (offers.length === 0) {
@@ -27,53 +31,9 @@ function Main(props) {
     }
   }, []);
 
-  useEffect(() => {
-    if (offers.length !== 0) {
-      setIsLoadPage(false);
-    }
-  }, [offers]);
-
-  switch (sortValue) {
-    case SortList.PRICE_LOW:
-      offersList.sort((a, b) => a.price - b.price);
-      break;
-    case SortList.PRICE_HIGH:
-      offersList.sort((a, b) => b.price - a.price);
-      break;
-    case SortList.TOP_RATED:
-      offersList.sort((a, b) => b.rating - a.rating);
-      break;
-    default:
-      offersList.sort((a, b) => a.id - b.id);
-  }
-
-  function getSortListArray() {
-    const SortListArray = [];
-
-    for (const key in SortList) {
-      SortListArray.push(SortList[key]);
-    }
-
-    return SortListArray;
-  }
-
-  function changeCity(evt, index) {
+  function changeCityHandler(evt, index) {
     evt.preventDefault();
     onChangeCity(index);
-  }
-
-  function hoverHandler(evt, data) {
-    evt.preventDefault();
-    setActiveOfferData(data);
-  }
-
-  function toggleDropVisible() {
-    setVisibleSortList(!visibleSortList);
-  }
-
-  function sortHandler(evt) {
-    changeSortOffers(evt.target.innerText);
-    toggleDropVisible(!visibleSortList);
   }
 
   if (isLoadPage || isDataLoading) {
@@ -90,7 +50,7 @@ function Main(props) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
 
-        <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCity } />
+        <MainLocations locations={ cities } activeCity={ activeCity } changeCity={ changeCityHandler } />
 
         <div className="cities">
           {
@@ -134,32 +94,31 @@ Main.propTypes = {
   activeCity: PropTypes.number.isRequired,
   onChangeCity: PropTypes.func.isRequired,
   sortValue: PropTypes.string.isRequired,
-  changeSortOffers: PropTypes.func.isRequired,
+  onChangeSortOffers: PropTypes.func.isRequired,
   loadOffersList: PropTypes.func,
   isDataLoading: PropTypes.bool,
   setLoading: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity,
-  offers: state.offers,
-  sortValue: state.sortValue,
-  isDataLoading: state.isDataLoading,
+  activeCity: getActiveCity(state),
+  offers: getOffers(state),
+  sortValue: getSortValue(state),
+  isDataLoading: getIsDataLoading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(index) {
-    dispatch(ActionCreator.changeCity(index));
-    dispatch(ActionCreator.fillingListOffers());
+    dispatch(changeCity(index));
   },
-  changeSortOffers(type) {
-    dispatch(ActionCreator.changeSortOffers(type));
+  onChangeSortOffers(type) {
+    dispatch(changeSortOffers(type));
   },
   loadOffersList() {
     dispatch(fetchOffersList());
   },
   setLoading(status) {
-    dispatch(ActionCreator.setLoadingPage(status));
+    dispatch(setLoadingPage(status));
   },
 });
 

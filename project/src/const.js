@@ -22,4 +22,10 @@ export const AuthStatus = {
   UNKNOWN: 'unknown',
 };
 
+export const ReducerType = {
+  APP: 'APP',
+  USER: 'USER',
+  DATA: 'DATA',
+};
+
 export const isAuth = (status) => status === AuthStatus.AUTH;

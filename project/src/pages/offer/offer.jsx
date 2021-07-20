@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import ReviewsProp from '../../review.prop';
@@ -11,26 +11,24 @@ import OfferInside from '../../components/offer-inside/offer-inside';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
 import OfferInfo from '../../components/offer-info/offer-info';
 import OfferMap from '../../components/offer-map/offer-map';
-import {getNearData, getOfferData, getReviewsList} from '../../store/api-actions';
+import {getNearInfo, getOfferInfo, getReviewsList} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
 import AppLoader from '../../components/app-loader/app-loader';
-import {ActionCreator} from '../../store/action';
+import {setLoadingPage} from '../../store/action';
+import {useLoader} from '../../hooks/useLoader';
+import {getIsDataLoading, getNearData, getOfferData, getReviews} from '../../store/data/selectors';
 
 function Offer(props) {
-  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviews, isDataLoading, setLoading } = props;
+  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviewsInfo, isDataLoading, setLoading } = props;
   const { id } = useParams();
-  const [ isLoadPage, setIsLoadPage ] = useState(true);
+  const isLoadPage = useLoader(offerData);
 
   useEffect(() => {
     setLoading(true);
     getOffer(id);
-    getReviews(id);
+    getReviewsInfo(id);
     getNear(id);
   }, [id]);
-
-  useEffect(() => {
-    setIsLoadPage(Object.keys(offerData).length === 0);
-  }, [offerData]);
 
   if (isLoadPage || isDataLoading) {
     return (
@@ -81,32 +79,32 @@ Offer.propTypes = {
   offerData: PropTypes.shape(OffersProp),
   getNear: PropTypes.func,
   reviewsData: PropTypes.arrayOf(ReviewsProp),
-  getReviews: PropTypes.func,
+  getReviewsInfo: PropTypes.func,
   isDataLoading: PropTypes.bool,
   setLoading: PropTypes.func,
 };
 
-const mapStateInProps = (state) => ({
-  offerData: state.offerData,
-  nearData: state.nearData,
-  reviewsData: state.reviews,
-  isDataLoading: state.isDataLoading,
+const mapStateToProps = (state) => ({
+  offerData: getOfferData(state),
+  nearData: getNearData(state),
+  reviewsData: getReviews(state),
+  isDataLoading: getIsDataLoading(state),
 });
 
-const mapDispatchInProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   getOffer(id) {
-    dispatch(getOfferData(id));
+    dispatch(getOfferInfo(id));
   },
-  getReviews(id) {
+  getReviewsInfo(id) {
     dispatch(getReviewsList(id));
   },
   getNear(id) {
-    dispatch(getNearData(id));
+    dispatch(getNearInfo(id));
   },
   setLoading(status) {
-    dispatch(ActionCreator.setLoadingPage(status));
+    dispatch(setLoadingPage(status));
   },
 });
 
 export {Offer};
-export default connect(mapStateInProps, mapDispatchInProps)(Offer);
+export default connect(mapStateToProps, mapDispatchToProps)(Offer);

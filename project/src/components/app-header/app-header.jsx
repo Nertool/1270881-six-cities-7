@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {logout} from '../../store/api-actions';
 import {isAuth} from '../../const';
+import {getAuthorizationStatus, getUserData} from '../../store/user/selectors';
 
 function AppHeader(props) {
-  const { authStatus, userLogout, userEmail } = props;
+  const { authStatus, userLogout, userData } = props;
+  const { email } = userData;
 
   return (
     <header className="header">
@@ -28,7 +30,7 @@ function AppHeader(props) {
                   <Link to='/favorites' className="header__nav-link header__nav-link--profile">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">{ userEmail }</span>
+                    <span className="header__user-name user__name">{ email }</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
@@ -63,15 +65,15 @@ function AppHeader(props) {
 AppHeader.propTypes = {
   authStatus: PropTypes.string.isRequired,
   userLogout: PropTypes.func.isRequired,
-  userEmail: PropTypes.string,
+  userData: PropTypes.object,
 };
 
-const mapStoreInProps = (store) => ({
-  authStatus: store.authorizationStatus,
-  userEmail: store.userData.email,
+const mapStateToProps = (state) => ({
+  authStatus: getAuthorizationStatus(state),
+  userData: getUserData(state),
 });
 
-const mapDispatchInProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   userLogout(evt) {
     evt.preventDefault();
     dispatch(logout());
@@ -79,4 +81,4 @@ const mapDispatchInProps = (dispatch) => ({
 });
 
 export {AppHeader};
-export default connect(mapStoreInProps, mapDispatchInProps)(AppHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

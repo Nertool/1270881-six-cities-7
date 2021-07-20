@@ -2,19 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function OfferGallery({images}) {
+  const imagesList = images.length > 6 ? images.slice(0, 6) : images;
+
   return (
     <div className="property__gallery-container container">
       <div className="property__gallery">
 
-        { images.map((imgSrc, index) => {
-          if (index < 6) {
+        {
+          imagesList.map((imgSrc, index) => {
+            const keyVal = `${index}-${imgSrc}`;
             return (
-              <div key={imgSrc} className="property__image-wrapper">
+              <div key={keyVal} className="property__image-wrapper">
                 <img className="property__image" src={ imgSrc } alt="Studio"/>
               </div>
             );
-          }
-        }) }
+          })
+        }
 
       </div>
     </div>
