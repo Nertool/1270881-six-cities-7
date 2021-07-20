@@ -5,18 +5,17 @@ import OffersItem from '../offers-item/offers-item';
 import {connect} from 'react-redux';
 
 function OffersList(props) {
-  const { data, isAuth, className } = props;
+  const { data, className } = props;
 
   return (
     <div className={`places__list ${className}`}>
-      {data.map((item) => <OffersItem key={item.id} offer={item} isAuth={isAuth} {...props} />)}
+      {data.map((item) => <OffersItem key={item.id} offer={item} {...props} />)}
     </div>
   );
 }
 
 OffersList.propTypes = {
   data: PropTypes.arrayOf(OffersProp),
-  isAuth: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 };
 

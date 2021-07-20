@@ -4,15 +4,24 @@ import PropTypes from 'prop-types';
 import OfferProp from '../../offer.prop';
 import useFormatRating from '../../hooks/useFormatRating';
 import MainCardPremium from '../main-card-premium/main-card-premium';
+import {getAuthorizationStatus} from '../../store/user/selectors';
+import {connect} from 'react-redux';
+import {isAuth} from '../../const';
+import {setFavoriteStatus} from '../../store/api-actions';
 
 function OffersItem(props) {
-  const {offer, hoverHandler = () => {}, isAuth} = props;
+  const {offer, hoverHandler = () => {}, authStatus, setFavorite} = props;
   const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
   const history = useHistory();
+  const isAuthStatus = isAuth(authStatus);
 
   function toggleFavorite(evt) {
     evt.preventDefault();
-    if (isAuth) {
+
+    const valueFavorite = isFavorite ? 0 : 1;
+    setFavorite(offer.id, valueFavorite);
+
+    if (isAuthStatus) {
       setIsFavorite(!isFavorite);
     } else {
       history.push('/login');
@@ -62,7 +71,19 @@ function OffersItem(props) {
 OffersItem.propTypes = {
   offer: OfferProp,
   hoverHandler: PropTypes.func,
-  isAuth: PropTypes.bool.isRequired,
+  setFavorite: PropTypes.func,
+  authStatus: PropTypes.string.isRequired,
 };
 
-export default OffersItem;
+const mapStateToProps = (state) => ({
+  authStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setFavorite(id, value) {
+    dispatch(setFavoriteStatus(id, value));
+  },
+});
+
+export {OffersItem};
+export default connect(mapStateToProps, mapDispatchToProps)(OffersItem);

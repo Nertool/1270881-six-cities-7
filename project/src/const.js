@@ -14,6 +14,7 @@ export const APIRoute = {
   LOGIN: '/login',
   LOGOUT: '/logout',
   REVIEWS: '/comments',
+  FAVORITE: '/favorite',
 };
 
 export const AuthStatus = {

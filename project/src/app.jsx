@@ -21,7 +21,7 @@ function App(props) {
     <BrowserRouter history={history}>
       <Switch>
         <Route exact path='/'>
-          <Main isAuth={isAuth(authStatus)} />
+          <Main />
         </Route>
         <Route exact path='/login'>
           { isAuth(authStatus) ? <Redirect to="/" /> : <Login /> }

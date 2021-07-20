@@ -18,7 +18,7 @@ import {getActiveCity, getSortValue} from '../../store/app-action/selectors';
 import {getIsDataLoading, getOffers} from '../../store/data/selectors';
 
 function Main(props) {
-  const { offers, isAuth, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
+  const { offers, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
   const isLoadPage = useLoader(offers);
   const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, onChangeSortOffers);
@@ -75,7 +75,7 @@ function Main(props) {
                   </ul>
                 </form>
 
-                <OffersList data={offersList} hoverHandler={hoverHandler} isAuth={isAuth} className='cities__places-list tabs__content' />
+                <OffersList data={offersList} hoverHandler={hoverHandler} className='cities__places-list tabs__content' />
 
               </section>
               <MainMap cardLocation={activeOfferData} offersList={offersList} />
@@ -90,7 +90,6 @@ function Main(props) {
 
 Main.propTypes = {
   offers: PropTypes.arrayOf(OffersProp),
-  isAuth: PropTypes.bool.isRequired,
   activeCity: PropTypes.number.isRequired,
   onChangeCity: PropTypes.func.isRequired,
   sortValue: PropTypes.string.isRequired,

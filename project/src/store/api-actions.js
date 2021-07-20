@@ -54,3 +54,7 @@ export const getNearInfo = (id) => (dispatch, _getState, api) => (
 export const postComment = (id, formData) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, formData)
 );
+
+export const setFavoriteStatus = (id, status) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
+);
