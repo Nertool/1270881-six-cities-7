@@ -1,32 +1,17 @@
-import React, {useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import OfferProp from '../../offer.prop';
 import useFormatRating from '../../hooks/useFormatRating';
 import MainCardPremium from '../main-card-premium/main-card-premium';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import {connect} from 'react-redux';
-import {isAuth} from '../../const';
 import {setFavoriteStatus} from '../../store/api-actions';
+import {useFavorite} from '../../hooks/useFavorite';
 
 function OffersItem(props) {
   const {offer, hoverHandler = () => {}, authStatus, setFavorite} = props;
-  const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
-  const history = useHistory();
-  const isAuthStatus = isAuth(authStatus);
-
-  function toggleFavorite(evt) {
-    evt.preventDefault();
-
-    const valueFavorite = isFavorite ? 0 : 1;
-
-    if (isAuthStatus) {
-      setFavorite(offer.id, valueFavorite);
-      setIsFavorite(!isFavorite);
-    } else {
-      history.push('/login');
-    }
-  }
+  const [isFavorite, toggleFavorite] = useFavorite(offer, authStatus, setFavorite);
 
   return (
     <article className="cities__place-card place-card" onMouseEnter={(e) => { hoverHandler(e, offer.location); }}>

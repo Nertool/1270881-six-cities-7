@@ -1,31 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import useFormatRating from '../../hooks/useFormatRating';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
-import {isAuth} from '../../const';
-import {useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import {setFavoriteStatus} from '../../store/api-actions';
+import {useFavorite} from '../../hooks/useFavorite';
 
 function OfferInfo(props) {
   const {offerData, authStatus, setFavorite} = props;
-  const [isFavorite, setIsFavorite] = useState(offerData.isFavorite);
-  const isAuthStatus = isAuth(authStatus);
-  const history = useHistory();
+  const [isFavorite, toggleFavorite] = useFavorite(offerData, authStatus, setFavorite);
 
-  function toggleFavorite(evt) {
-    evt.preventDefault();
-
-    const valueFavorite = isFavorite ? 0 : 1;
-
-    if (isAuthStatus) {
-      setFavorite(offerData.id, valueFavorite);
-      setIsFavorite(!isFavorite);
-    } else {
-      history.push('/login');
-    }
-  }
   return (
     <>
       {
