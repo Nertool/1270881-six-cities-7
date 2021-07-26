@@ -14,7 +14,7 @@ function OfferReviews({ reviews, id, authStatus }) {
     <>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviewsList.length }</span></h2>
 
-      <OfferReviewsList reviews={reviewsList} />
+      <OfferReviewsList reviews={reviewsList.reverse()} />
       { isAuth(authStatus) && <OfferReviewsForm id={+id} />}
     </>
   );
