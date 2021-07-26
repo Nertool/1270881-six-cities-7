@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import OfferReviewsFormRating from '../offer-reviews-form-rating/offer-reviews-form-rating';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getReviewsList, postComment} from '../../store/api-actions';
-import {getMessageError} from "../../store/app-action/selectors";
+import {postComment} from '../../store/api-actions';
+import {getMessageError} from '../../store/app-action/selectors';
 
 function OfferReviewsForm ({ id, submitCommentHandler, messageError }) {
 

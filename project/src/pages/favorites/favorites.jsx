@@ -9,7 +9,7 @@ import {getFavorites} from '../../store/api-actions';
 import {getFavoritesData, getIsDataLoading} from '../../store/data/selectors';
 import AppLoader from '../../components/app-loader/app-loader';
 import {setLoadingPage} from '../../store/action';
-import FavoritesEmpty from "../../components/favorites-empty/favorites-empty";
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 function Favorites(props) {
   const { favorites, getFavoritesList, isDataLoading, setLoading } = props;
