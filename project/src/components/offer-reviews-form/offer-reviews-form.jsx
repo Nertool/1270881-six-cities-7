@@ -75,7 +75,6 @@ OfferReviewsForm.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   submitCommentHandler(id, data) {
     dispatch(postComment(id, data));
-    dispatch(getReviewsList(id));
   },
 });
 

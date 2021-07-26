@@ -8,11 +8,13 @@ import {connect} from 'react-redux';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 
 function OfferReviews({ reviews, id, authStatus }) {
+  const reviewsList = reviews.length > 10 ? reviews.slice(reviews.length - 10, reviews.length) : reviews;
+
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviews.length }</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{ reviewsList.length }</span></h2>
 
-      <OfferReviewsList reviews={reviews} />
+      <OfferReviewsList reviews={reviewsList} />
       { isAuth(authStatus) && <OfferReviewsForm id={+id} />}
     </>
   );
