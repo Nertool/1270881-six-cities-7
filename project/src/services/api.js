@@ -9,7 +9,6 @@ const HttpCode = {
   NOT_FOUND: 404,
 };
 
-
 const token = localStorage.getItem('token') ?? '';
 
 export const createAPI = (onUnauthorized) => {
