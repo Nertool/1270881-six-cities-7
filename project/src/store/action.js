@@ -9,6 +9,7 @@ export const ActionType = {
   LOAD_REVIEWS: 'data/loadReviews',
   LOAD_NEAR_OFFERS: 'data/loadNearOffers',
   SET_FAVORITE_DATA: 'data/setFavoriteData',
+  SET_MESSAGE_ERROR: 'data/setMessageError',
 };
 
 export const changeCity = (value) => ({
@@ -59,4 +60,9 @@ export const setLoadingPage = (status) => ({
 export const setFavoriteData = (data) => ({
   type: ActionType.SET_FAVORITE_DATA,
   payload: data,
+});
+
+export const setMessageError = (message) => ({
+  type: ActionType.SET_MESSAGE_ERROR,
+  payload: message,
 });

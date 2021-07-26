@@ -4,7 +4,7 @@ import {
   changeUserData,
   requestOfferData,
   loadReviews,
-  loadNearOffers, setFavoriteData
+  loadNearOffers, setFavoriteData, setMessageError
 } from './action';
 import {APIRoute, AuthStatus} from '../const';
 import {formatJSON} from '../utils/format-json';
@@ -61,6 +61,7 @@ export const getNearInfo = (id) => (dispatch, _getState, api) => (
 export const postComment = (id, formData) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, formData)
     .then(({data}) => dispatch(loadReviews(formatJSON(data))))
+    .catch(() => dispatch(setMessageError('Error: Request failed with status code 400')))
 );
 
 export const setFavoriteStatus = (id, status) => (dispatch, _getState, api) => (

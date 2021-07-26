@@ -3,8 +3,9 @@ import OfferReviewsFormRating from '../offer-reviews-form-rating/offer-reviews-f
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getReviewsList, postComment} from '../../store/api-actions';
+import {getMessageError} from "../../store/app-action/selectors";
 
-function OfferReviewsForm ({ id, submitCommentHandler }) {
+function OfferReviewsForm ({ id, submitCommentHandler, messageError }) {
 
   const [ formData, setFormData ] = useState({
     rating: 0,
@@ -64,6 +65,7 @@ function OfferReviewsForm ({ id, submitCommentHandler }) {
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={!isValidForm(formData)}>Submit</button>
       </div>
+      { messageError.length > 0 && <div style={{ color: '#ec364e' }}>Error: Request failed with status code 400</div> }
     </form>
   );
 }
@@ -71,7 +73,12 @@ function OfferReviewsForm ({ id, submitCommentHandler }) {
 OfferReviewsForm.propTypes = {
   id: PropTypes.number.isRequired,
   submitCommentHandler: PropTypes.func,
+  messageError: PropTypes.string,
 };
+
+const mapStateToProps = (state) => ({
+  messageError: getMessageError(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   submitCommentHandler(id, data) {
@@ -80,5 +87,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {OfferReviewsForm};
-export default connect(null, mapDispatchToProps)(OfferReviewsForm);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferReviewsForm);
 

@@ -4,6 +4,7 @@ import {SortList} from '../../const';
 const initialState = {
   activeCity: 0,
   sortValue: SortList.POPULAR,
+  messageError: '',
 };
 
 const appAction = (state = initialState, action) => {
@@ -17,6 +18,11 @@ const appAction = (state = initialState, action) => {
       return {
         ...state,
         sortValue: action.payload,
+      };
+    case ActionType.SET_MESSAGE_ERROR:
+      return {
+        ...state,
+        messageError: action.payload,
       };
     default:
       return state;

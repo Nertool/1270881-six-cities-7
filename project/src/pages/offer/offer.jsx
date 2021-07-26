@@ -14,14 +14,16 @@ import OfferMap from '../../components/offer-map/offer-map';
 import {getNearInfo, getOfferInfo, getReviewsList} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
 import AppLoader from '../../components/app-loader/app-loader';
-import {setLoadingPage} from '../../store/action';
+import {setLoadingPage, setMessageError} from '../../store/action';
 import {useLoader} from '../../hooks/useLoader';
 import {getIsDataLoading, getNearData, getOfferData, getReviews} from '../../store/data/selectors';
 
 function Offer(props) {
-  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviewsInfo, isDataLoading, setLoading } = props;
+  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviewsInfo, isDataLoading, setLoading, clearMessageError } = props;
   const { id } = useParams();
   const isLoadPage = useLoader(offerData);
+
+  clearMessageError('');
 
   useEffect(() => {
     setLoading(true);
@@ -82,6 +84,7 @@ Offer.propTypes = {
   getReviewsInfo: PropTypes.func,
   isDataLoading: PropTypes.bool,
   setLoading: PropTypes.func,
+  clearMessageError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -103,6 +106,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setLoading(status) {
     dispatch(setLoadingPage(status));
+  },
+  clearMessageError() {
+    dispatch(setMessageError(''));
   },
 });
 
