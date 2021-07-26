@@ -7,13 +7,12 @@ import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
 import {getFavorites} from '../../store/api-actions';
 import {getFavoritesData, getIsDataLoading} from '../../store/data/selectors';
-import {useLoader} from '../../hooks/useLoader';
 import AppLoader from '../../components/app-loader/app-loader';
 import {setLoadingPage} from '../../store/action';
+import FavoritesEmpty from "../../components/favorites-empty/favorites-empty";
 
 function Favorites(props) {
   const { favorites, getFavoritesList, isDataLoading, setLoading } = props;
-  const isLoadPage = useLoader(favorites);
   const [favoriteData, setFavoriteData] = useState([]);
 
   useEffect(() => {
@@ -42,10 +41,12 @@ function Favorites(props) {
       });
 
       setFavoriteData(favoriteList);
+    } else {
+      setFavoriteData([]);
     }
   }, [favorites]);
 
-  if (isLoadPage || isDataLoading) {
+  if (isDataLoading) {
     return (
       <AppLoader />
     );
@@ -56,19 +57,23 @@ function Favorites(props) {
 
       <AppHeader />
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
+      {
+        favoriteData.length > 0 &&
+        <main className="page__main page__main--favorites">
+          <div className="page__favorites-container container">
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <ul className="favorites__list">
 
-              { favoriteData.map((cityData) => <FavoriteList key={cityData.city} cityData={cityData} />) }
+                { favoriteData.map((cityData) => <FavoriteList key={cityData.city} cityData={cityData} />) }
 
-            </ul>
-          </section>
-        </div>
-      </main>
+              </ul>
+            </section>
+          </div>
+        </main>
+      }
 
+      { !favoriteData.length && <FavoritesEmpty /> }
       <AppFooter />
 
     </div>
