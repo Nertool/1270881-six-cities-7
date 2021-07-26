@@ -61,7 +61,7 @@ function Offer(props) {
             </div>
           </div>
 
-          <OfferMap near={nearData} />
+          <OfferMap near={nearData} currentOfferLocation={offerData.location} />
 
         </section>
 
