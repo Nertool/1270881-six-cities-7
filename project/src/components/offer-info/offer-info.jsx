@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import {setFavoriteStatus} from '../../store/api-actions';
 import {useFavorite} from '../../hooks/useFavorite';
+import {OfferType} from '../../const';
 
 function OfferInfo(props) {
   const {offerData, authStatus, setFavorite} = props;
@@ -40,8 +41,8 @@ function OfferInfo(props) {
         <span className="property__rating-value rating__value">{ offerData.rating }</span>
       </div>
       <ul className="property__features">
-        <li className="property__feature property__feature--entire" style={{ textTransform: 'capitalize' }}>
-          { offerData.type }
+        <li className="property__feature property__feature--entire">
+          { OfferType[offerData.type.toUpperCase()] }
         </li>
         <li className="property__feature property__feature--bedrooms">
           { offerData.bedrooms } Bedrooms

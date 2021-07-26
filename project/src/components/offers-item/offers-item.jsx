@@ -8,6 +8,7 @@ import {getAuthorizationStatus} from '../../store/user/selectors';
 import {connect} from 'react-redux';
 import {setFavoriteStatus} from '../../store/api-actions';
 import {useFavorite} from '../../hooks/useFavorite';
+import {OfferType} from '../../const';
 
 function OffersItem(props) {
   const {offer, hoverHandler = () => {}, authStatus, setFavorite} = props;
@@ -47,7 +48,7 @@ function OffersItem(props) {
         <h2 className="place-card__name">
           <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{OfferType[offer.type.toUpperCase()]}</p>
       </div>
     </article>
   );
