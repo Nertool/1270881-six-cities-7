@@ -33,7 +33,7 @@ function OfferReviewsForm ({ id, submitCommentHandler }) {
     });
   };
 
-  const isValidForm = ({rating, comment}) => rating && comment.length;
+  const isValidForm = ({rating, comment}) => rating && comment.length >= 50;
 
   const submitHandler = (evt) => {
     evt.preventDefault();
@@ -54,6 +54,7 @@ function OfferReviewsForm ({ id, submitCommentHandler }) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={changeControl}
         value={formData.comment}
+        maxLength="500"
       >
       </textarea>
       <div className="reviews__button-wrapper">
