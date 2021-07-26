@@ -28,5 +28,3 @@ export const ReducerType = {
   USER: 'USER',
   DATA: 'DATA',
 };
-
-export const isAuth = (status) => status === AuthStatus.AUTH;

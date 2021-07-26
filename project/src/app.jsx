@@ -7,7 +7,7 @@ import Login from './pages/login/login';
 import Favorites from './pages/favorites/favorites';
 import Offer from './pages/offer/offer';
 import NotFound from './pages/not-found/not-found';
-import {isAuth} from './const';
+import {isAuth} from './utils/isAuth';
 import PrivateRoute from './components/private-route/private-route';
 import history from './utils/history';
 import {getIsDataLoading} from './store/data/selectors';
@@ -23,7 +23,7 @@ function App(props) {
           <Main />
         </Route>
         <Route exact path='/login'>
-          { isAuth(authStatus) ? <Redirect to="/" /> : <Login /> }
+          <Login />
         </Route>
         <PrivateRoute exact path='/favorites' render={() => <Favorites />} />
         <Route exact path='/offer/:id'>

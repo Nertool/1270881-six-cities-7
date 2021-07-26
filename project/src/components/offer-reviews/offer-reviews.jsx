@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import OfferReviewsForm from '../offer-reviews-form/offer-reviews-form';
 import OfferReviewsList from '../offer-reviews-list/offer-reviews-list';
 import ReviewsProp from '../../review.prop';
-import {isAuth} from '../../const';
+import {isAuth} from '../../utils/isAuth';
 import {connect} from 'react-redux';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 

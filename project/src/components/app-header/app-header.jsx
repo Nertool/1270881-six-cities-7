@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {logout} from '../../store/api-actions';
-import {isAuth} from '../../const';
+import {isAuth} from '../../utils/isAuth';
 import {getAuthorizationStatus, getUserData} from '../../store/user/selectors';
 
 function AppHeader(props) {

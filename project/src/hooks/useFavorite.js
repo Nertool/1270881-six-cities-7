@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {isAuth} from '../const';
+import {isAuth} from '../utils/isAuth';
 import {useHistory} from 'react-router-dom';
 
 export const useFavorite = (obj, authStatus, setFavorite) => {
