@@ -20,10 +20,9 @@ function Main(props) {
   const { offers, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
   const isLoadPage = useLoader(offers);
   const [activeOfferData, hoverHandler] = useHoverCard();
-  const citiesList = [];
   const [cities, setCities] = useState([]);
 
-  const filterOffers = (offers) => offers.filter((offer) => offer.city.name === cities[activeCity]);
+  const filterOffers = (data) => data.filter((item) => item.city.name === cities[activeCity]);
   const offersList = offers.length ? filterOffers(offers) : [];
 
   const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, onChangeSortOffers);
@@ -39,6 +38,7 @@ function Main(props) {
   }, [setLoading, loadOffersList]);
 
   useEffect(() => {
+    const citiesList = [];
     if (offers.length) {
       offers.forEach((offer) => {
         const city = offer.city.name;
