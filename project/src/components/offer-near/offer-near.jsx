@@ -5,14 +5,14 @@ import OffersProp from '../../offer.prop';
 import OffersList from '../offers-list/offers-list';
 
 function OfferNear(props) {
-  const { near, isAuth } = props;
+  const { near } = props;
 
   return (
     <div className="container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-        <OffersList data={near} isAuth={isAuth} className='near-places__list' />
+        <OffersList data={near} className='near-places__list' />
 
       </section>
     </div>
@@ -21,7 +21,6 @@ function OfferNear(props) {
 
 OfferNear.propTypes = {
   near: PropTypes.arrayOf(OffersProp),
-  isAuth: PropTypes.bool.isRequired,
 };
 
 export default OfferNear;

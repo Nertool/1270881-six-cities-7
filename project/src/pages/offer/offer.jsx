@@ -19,7 +19,7 @@ import {useLoader} from '../../hooks/useLoader';
 import {getIsDataLoading, getNearData, getOfferData, getReviews} from '../../store/data/selectors';
 
 function Offer(props) {
-  const { nearData, isAuth, getOffer, offerData, getNear, reviewsData, getReviewsInfo, isDataLoading, setLoading, clearMessageError } = props;
+  const { nearData, getOffer, offerData, getNear, reviewsData, getReviewsInfo, isDataLoading, setLoading, clearMessageError } = props;
   const { id } = useParams();
   const isLoadPage = useLoader(offerData);
 
@@ -67,7 +67,7 @@ function Offer(props) {
 
         </section>
 
-        <OfferNear near={nearData} isAuth={isAuth} />
+        <OfferNear near={nearData} />
 
       </main>
     </div>
@@ -76,7 +76,6 @@ function Offer(props) {
 
 Offer.propTypes = {
   nearData: PropTypes.arrayOf(OffersProp),
-  isAuth: PropTypes.bool.isRequired,
   getOffer: PropTypes.func,
   offerData: PropTypes.shape(OffersProp),
   getNear: PropTypes.func,
