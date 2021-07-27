@@ -5,13 +5,13 @@ export const useSorting = (sortValue, data, changeSortOffers) => {
   const [ visibleSortList, setVisibleSortList ] = useState(false);
 
   const getSortListArray = () => {
-    const SortListArray = [];
+    const sortListArray = [];
 
     for (const key in SortList) {
-      SortListArray.push(SortList[key]);
+      sortListArray.push(SortList[key]);
     }
 
-    return SortListArray;
+    return sortListArray;
   };
 
   const toggleDropVisible = () => setVisibleSortList(!visibleSortList);

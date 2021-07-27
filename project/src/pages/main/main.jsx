@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersProp from '../../offer.prop';
 import {connect} from 'react-redux';
 import {changeCity, changeSortOffers, setLoadingPage} from '../../store/action';
-import {cities} from '../../const';
 import AppHeader from '../../components/app-header/app-header';
 import MainLocations from '../../components/main-locations/main-locations';
 import MainMap from '../../components/main-map/main-map';
@@ -19,20 +18,38 @@ import {getIsDataLoading, getOffers} from '../../store/data/selectors';
 
 function Main(props) {
   const { offers, activeCity, onChangeCity, sortValue, onChangeSortOffers, loadOffersList, isDataLoading, setLoading } = props;
-  const offersList = offers.length ? offers.filter((offer) => offer.city.name === cities[activeCity]) : [];
   const isLoadPage = useLoader(offers);
-  const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, onChangeSortOffers);
   const [activeOfferData, hoverHandler] = useHoverCard();
+  const citiesList = [];
+  const [cities, setCities] = useState([]);
+
+  const filterOffers = (offers) => offers.filter((offer) => offer.city.name === cities[activeCity]);
+  const offersList = offers.length ? filterOffers(offers) : [];
+
+  const [visibleSortList, getSortListArray, toggleDropVisible, sortHandler] = useSorting(sortValue, offersList, onChangeSortOffers);
+
+  const changeCityHandler = (evt, index) => {
+    evt.preventDefault();
+    onChangeCity(index);
+  };
 
   useEffect(() => {
     setLoading(true);
     loadOffersList();
   }, [setLoading, loadOffersList]);
 
-  function changeCityHandler(evt, index) {
-    evt.preventDefault();
-    onChangeCity(index);
-  }
+  useEffect(() => {
+    if (offers.length) {
+      offers.forEach((offer) => {
+        const city = offer.city.name;
+
+        if (!citiesList.includes(city)) {
+          citiesList.push(city);
+        }
+      });
+    }
+    setCities(citiesList);
+  }, [offers]);
 
   if (isLoadPage || isDataLoading) {
     return (
