@@ -7,15 +7,14 @@ import useMap from '../../hooks/useMap';
 
 function MainMap(props) {
   const { cardLocation, offersList } =  props;
-  const cityLocation = offersList[0].city.location;
   const mapRef = useRef(null);
-  const {map, layer} = useMap(mapRef, cityLocation);
+  const {map, layer} = useMap(mapRef, offersList[0].city.location);
 
-  function checkSelectedMarker(location) {
-    return location.latitude === cardLocation.latitude && location.longitude === cardLocation.longitude;
-  }
 
   useEffect(() => {
+    const cityLocation = offersList[0].city.location;
+    const checkSelectedMarker = (location) => location.latitude === cardLocation.latitude && location.longitude === cardLocation.longitude;
+
     if (offersList.length && map !== null) {
       layer.clearLayers();
       map.setView([cityLocation.latitude, cityLocation.longitude], cityLocation.zoom);
@@ -33,7 +32,7 @@ function MainMap(props) {
         leaflet.marker([location.latitude, location.longitude], {icon: checkSelectedMarker(location) ? activeIcon : defaultIcon}).addTo(layer);
       });
     }
-  }, [map, offersList, layer]);
+  }, [map, offersList, layer, cardLocation]);
 
   return (
     <div className="cities__right-section">

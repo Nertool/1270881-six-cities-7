@@ -18,7 +18,7 @@ function Favorites(props) {
   useEffect(() => {
     setLoading(true);
     getFavoritesList();
-  }, []);
+  }, [setLoading, getFavoritesList]);
 
   useEffect(() => {
     if (favorites.length) {

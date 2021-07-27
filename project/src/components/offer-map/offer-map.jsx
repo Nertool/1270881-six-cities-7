@@ -33,7 +33,7 @@ function OfferMap({ near, currentOfferLocation }) {
       });
       leaflet.marker([currentOfferLocation.latitude, currentOfferLocation.longitude], {icon: activeIcon}).addTo(layer);
     }
-  }, [map, near, layer]);
+  }, [near, map, isEnableScrollingMap, layer, currentOfferLocation]);
 
   return (
     <div className='container'>

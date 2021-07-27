@@ -27,7 +27,7 @@ function Main(props) {
   useEffect(() => {
     setLoading(true);
     loadOffersList();
-  }, []);
+  }, [setLoading, loadOffersList]);
 
   function changeCityHandler(evt, index) {
     evt.preventDefault();

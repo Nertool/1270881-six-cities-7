@@ -15,7 +15,7 @@ function Login(props) {
     if (isAuthStatus) {
       history.push('/');
     }
-  }, [authStatus]);
+  });
 
   return (
     <div className="page page--gray page--login">

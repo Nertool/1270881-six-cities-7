@@ -30,7 +30,7 @@ function Offer(props) {
     getOffer(id);
     getReviewsInfo(id);
     getNear(id);
-  }, [id]);
+  }, [id, setLoading, getOffer, getReviewsInfo, getNear]);
 
   if (isLoadPage || isDataLoading) {
     return (
